@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Hora Libre</title>
+    <style>
+        /* Estilos para el contenedor y los elementos de selección */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        #calendar, #time-selection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label, select, button {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="calendar">
+        <label for="date-picker">Seleccione un día:</label>
+        <input type="date" id="date-picker" onchange="filterHours()">
+    </div>
+
+    <div id="time-selection">
+        <label for="hour-select">Hora:</label>
+        <select id="hour-select">
+            <option value="">Seleccione una hora</option>
+        </select>
+        <br>
+        <label for="descripcion">Descripcion corta:</label>
+        <input type="text" id="descripcion" name="descripcion">
+        <button onclick="submitSelection()">Enviar</button>
+    </div>
+</div>
+
+<!-- Thymeleaf convierte la lista de horas en JSON -->
+<script th:inline="javascript">
+    // Convierte la lista de horas en un objeto de JavaScript accesible
+    const horasLibres = /*[[${horas}]]*/ [];
+
+    const idDocente =  /*[[${docente}]]*/ 0;
+
+    // Extrae solo `horaInicio` y `diaSemana` de cada objeto en `horasLibres`
+    const horasDisponibles = horasLibres.map(horaLibre => ({
+        dia: horaLibre.diaSemana,
+        hora: horaLibre.horaInicio
+    }));
+
+    console.log(horasDisponibles); // Verifica que solo tienes `dia` y `hora`
+</script>
+
+<script>
+    // Función para filtrar las horas según el día seleccionado
+    function filterHours() {
+        const selectedDate = new Date(document.getElementById('date-picker').value + 'T00:00:00'); // Se asegura de que la hora sea a medianoche
+        const dayOfWeek = selectedDate.toLocaleString('es-ES', { weekday: 'long' }).toLowerCase(); // Obtiene el nombre del día correctamente en español
+
+        console.log(dayOfWeek); // Esto ahora debería mostrar el día correcto
+
+        const hourSelect = document.getElementById('hour-select');
+        hourSelect.innerHTML = '<option value="">Seleccione una hora</option>'; // Limpia el select
+
+        const availableHours = horasDisponibles.filter(hora => hora.dia.toLowerCase() === dayOfWeek);
+
+        if (availableHours.length > 0) {
+            availableHours.forEach(hora => {
+                const option = document.createElement('option');
+                option.value = hora.hora.substring(0, 5);
+                option.textContent = hora.hora.substring(0, 5);
+                hourSelect.appendChild(option);
+            });
+            hourSelect.disabled = false;
+        } else {
+            const option = document.createElement('option');
+            option.textContent = "No hay horas disponibles";
+            hourSelect.appendChild(option);
+            hourSelect.disabled = true;
+        }
+    }
+
+    // Función para enviar la selección al backend
+    function submitSelection() {
+        const datePicker = document.getElementById('date-picker').value;
+        const hourSelect = document.getElementById('hour-select').value;
+        const descripcion = document.getElementById('descripcion').value;
+
+        if (!datePicker || !hourSelect) {
+            alert("Por favor, seleccione un día y una hora.");
+            return;
+        }
+
+        if (!descripcion){
+            alert("Por favor ingrese una corta descripción o motivo de la reunion");
+            return;
+        }
+
+        const data = {
+            dia: datePicker,
+            hora: hourSelect,
+            descripcion: descripcion,
+            idDocente: idDocente
+        };
+
+        fetch('/api/reunion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Hora seleccionada exitosamente");
+                } else {
+                    alert("Error al seleccionar la hora");
+                }
+            })
+            .catch(error => {
+                console.error("Error al enviar la selección:", error);
+                alert("Error de conexión");
+            });
+    }
+</script>
+
+</body>
+</html>

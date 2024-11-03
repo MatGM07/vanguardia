@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div th:insert="fragments :: estilos"></div>
+    <title>PEI</title>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const button = document.getElementById("togglePEI");
+            const button1 = document.getElementById("guardar")
+            const textarea = document.getElementById("textarea1");
+            console.log('boton', button);
+            console.log(textarea);
+            textarea.style.display = "none";
+            button1.style.display = "none";
+
+            button.addEventListener("click", () => {
+
+                if (textarea.style.display === "none") {
+                    textarea.style.display = "block";  // Mostrar el textarea
+                }
+                if (button1.style.display === "none"){
+                    button1.style.display = "block";
+                }
+            });
+
+            button1.addEventListener("click", () => {
+                var id = [[${contenido.id}]];
+                var url = "/api/contenido/" + id;
+                const requestData = {
+                    titulo: "PEI",
+                    descripcion: document.getElementById('textarea1').value,
+                    seccion:{
+                        id:3
+                    }
+                };
+
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/'; // Redirige a la página de inicio
+                        } else {
+                            alert('Error al guardar el principio'); // Maneja el error
+                        }
+                    })
+                    .catch(error => {
+                        println(error);
+                        console.error('Error:', error);
+                        alert('Ocurrió un error en la conexión.');
+                    });
+            });
+        });
+
+
+
+    </script>
+</head>
+<body>
+    <div th:insert="fragments :: header"></div>
+    <main>
+        <section class="himno">
+            <br><br>
+
+            <br><br>
+
+            <article class="pei-container">
+                <h1>Nuestro Proyecto Educativo Institucional</h1>
+                <p class="pei-description">El Proyecto Educativo Institucional (PEI) de un colegio es un documento estratégico que define la visión, misión, valores, objetivos, y principios pedagógicos de la institución. Este proyecto establece las directrices y el enfoque educativo que guiarán el proceso de enseñanza-aprendizaje, la organización interna, y la relación con la comunidad educativa. El PEI es clave para alinear las acciones y decisiones de la institución con su propósito educativo y garantizar la calidad de la educación que se brinda.</p>
+            </article>
+            <br><br>
+            <h2>Conoce el PEI de Nuestra Institución</h2>
+            <br><br>
+            <div th:unless="${noPEI}">
+            <iframe style="width: 100%; height: 800px;" th:src="@{${contenido.getDescripcion()}}" width="100%" height="800" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+            </div>
+            <br><br>
+        <div th:if="${isAdmin}">
+            <button id="togglePEI" class="boton1">Editar Enlace de PEI</button>
+            <br>
+            <textarea id="textarea1" class="textarea1" placeholder="ingrese el enlace..."></textarea>
+            <br>
+            <button id="guardar" class="boton2">Guardar</button>
+        </div>
+            <br><br><br>
+        </section>
+    </main>
+</body>
+</html>

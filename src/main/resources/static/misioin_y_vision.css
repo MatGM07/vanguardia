@@ -1,0 +1,44 @@
+.mision-vision {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 0 0;
+    gap: 80px;
+    line-height: 2;
+    text-align: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background-image: url("images/Fondo.jpg");
+    height: 1080px;
+}
+
+
+section .mision {
+    width: 350px;
+    
+}
+
+section .vision {
+    width: 350px;
+}
+
+.mision-vision h1 {
+    text-align: center;
+    background-color: #4f92d5;
+    font-family: Verdana;
+    color: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.mision-vision p {
+    margin: 32px 0 0 0;
+    font-family: Verdana;
+}
+
+
+@media (max-width: 640px) {
+    .mision-vision {
+        flex-wrap: wrap;
+    }
+}

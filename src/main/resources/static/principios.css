@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.principios-valores {
+    margin: 40px 0 0 0;
+    line-height: 2;
+    text-align: left;
+    padding: 24px;
+    box-sizing: border-box;
+    width: 60%;
+}
+
+section .principios {
+    min-width: 600px
+    
+}
+
+section .valores {
+    min-width: 600px;
+}
+
+.principios-valores h2 {
+    text-align: center;
+    background-color: #4f92d5;
+    color: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.valores h2 {
+    margin: 32px 0 0 0;
+}
+
+.principios-valores p {
+    margin: 32px 0 0 0;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+.principios-valores li {
+    margin-top: .5em;
+    margin-bottom: .5em;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+
+@media (max-width: 640px) {
+    .principios-valores {
+        flex-wrap: wrap;
+    }
+}

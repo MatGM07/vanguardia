@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario de Disponibilidad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .schedule {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+        }
+        .time-slot {
+            width: 100px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .time-slot.selected {
+            background-color: #add8e6;
+        }
+        .header {
+            font-weight: bold;
+            background-color: #ececec;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Seleccione sus horas libres</h1>
+
+<div class="schedule" id="schedule">
+    <div class="header">Horas</div>
+    <div class="header">Lunes</div>
+    <div class="header">Martes</div>
+    <div class="header">Miércoles</div>
+    <div class="header">Jueves</div>
+    <div class="header">Viernes</div>
+
+    <!-- Generar filas de horarios -->
+    <script>
+        const schedule = document.getElementById('schedule');
+        const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+        const times = [
+            "06:00", "06:30", "07:00", "07:30",
+            "08:00", "08:30", "09:00", "09:30",
+            "10:00", "10:30", "11:00", "11:30",
+            "14:00", "14:30", "15:00", "15:30",
+            "16:00", "16:30", "17:00", "17:30"
+        ];
+
+        times.forEach(time => {
+            const timeCell = document.createElement('div');
+            timeCell.className = 'time-slot header';
+            timeCell.textContent = time;
+            schedule.appendChild(timeCell);
+
+            days.forEach(day => {
+                const cell = document.createElement('div');
+                cell.className = 'time-slot';
+                cell.dataset.time = time;
+                cell.dataset.day = day;
+                cell.addEventListener('click', () => {
+                    cell.classList.toggle('selected');
+                });
+                schedule.appendChild(cell);
+            });
+        });
+    </script>
+</div>
+
+<button class="submit-button" onclick="submitAvailability()">Enviar</button>
+
+<script>
+    function submitAvailability() {
+        const selectedSlots = [];
+        document.querySelectorAll('.time-slot.selected').forEach(slot => {
+            selectedSlots.push({
+                dia: slot.dataset.day,
+                hora: slot.dataset.time
+            });
+        });
+
+        fetch('/api/horas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ disponibilidad: selectedSlots })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Disponibilidad enviada exitosamente");
+                } else {
+                    alert("Error al enviar disponibilidad");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error de conexión");
+            });
+    }
+</script>
+
+</body>
+</html>

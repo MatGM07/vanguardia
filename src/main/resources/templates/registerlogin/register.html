@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/login.css">
+    <title>Document</title>
+    <script>
+        function toggleTelefonoField() {
+            const selectedRole = document.querySelector('input[name="tipoRol"]:checked');
+
+            const acudienteField = document.getElementById('telefonoField');
+            const parentescoField = document.getElementById('parentescoField');
+            const estudianteField = document.getElementById('estudianteField');
+
+            const estudianteInput = document.getElementById('estudiante');
+            const telefonoInput = document.getElementById('telefono');
+            const parentescoInput = document.getElementById('parentesco');
+
+
+            if (selectedRole && selectedRole.value === 'ACUDIENTE') {
+                acudienteField.style.display = 'block'; // Muestra el campo de teléfono
+                parentescoField.style.display = 'block';
+                estudianteField.style.display = 'block';
+
+                telefonoInput.setAttribute('required', 'required');
+                parentescoInput.setAttribute('required', 'required');
+                estudianteInput.setAttribute('required', 'required');
+
+            } else if ( (selectedRole && selectedRole.value === 'ADMIN') || (selectedRole && selectedRole.value === 'DOCENTE')){
+                acudienteField.style.display = 'block'; // Oculta el campo de teléfono
+                parentescoField.style.display = 'none';
+                estudianteField.style.display = 'none';
+
+                telefonoInput.setAttribute('required', 'required');
+                parentescoInput.removeAttribute('required');
+                estudianteInput.removeAttribute('required');
+
+            } else {
+                acudienteField.style.display = 'none'; // Oculta el campo de teléfono
+                parentescoField.style.display = 'none';
+                estudianteField.style.display = 'none';
+
+                telefonoInput.removeAttribute('required');
+                parentescoInput.removeAttribute('required');
+                estudianteInput.removeAttribute('required');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verifica si se debe ocultar o mostrar el campo al cargar
+            toggleTelefonoField();
+
+            // Función para mostrar/ocultar campos según el rol seleccionado
+
+
+            // Manejar el envío del formulario
+            document.getElementById('registrationform').addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita el comportamiento predeterminado del formulario
+
+                const selectedRole = document.querySelector('input[name="tipoRol"]:checked');
+
+                if (!selectedRole) {
+                    alert('Por favor selecciona un rol.');
+                    return;
+                }
+
+                // Recopila los datos del formulario
+                const requestData = {
+                    nombre: document.getElementById('firstname').value,
+                    apellido: document.getElementById('lastname').value,
+                    correo: document.getElementById('correo').value,
+                    tipoRol: selectedRole.value,
+                    contraseña: document.getElementById('password').value,
+                    telefono: document.getElementById('telefono').value,
+                    parentezco: document.getElementById('parentesco').value,
+                    estudianteCorreo: document.getElementById('estudiante').value // Solo para Acudiente
+                };
+
+                console.log(requestData)
+
+                let url;
+                switch (selectedRole.value) {
+                    case "ADMIN":
+                        url = '/user/register/admin';
+                        break;
+                    case "DOCENTE":
+                        url = '/user/register/doc';
+                        break;
+                    case "ACUDIENTE":
+                        url = '/user/register/a';
+                        break;
+                    case "ESTUDIANTE":
+                        url = '/user/register/e';
+                        break;
+                    default:
+                        alert('Rol no válido.');
+                        return;
+                }
+
+                // Envía la solicitud al servidor
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/user/login'; // Redirigir a login si es exitoso
+                        } else {
+                            return response.json().then(errorData => {
+                                alert(errorData.message || 'Error al registrar.'); // Manejar errores
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error en la conexión.');
+                    });
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<header>
+    <section class="logo-header">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReKB6IFGKa3JfTVhzH9tjQx5lnRrwJ_n4XIg&s" alt="Institución educativa rural vanguardia">
+    </section>
+</header>
+
+<main class="login">
+    <article class="form-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReKB6IFGKa3JfTVhzH9tjQx5lnRrwJ_n4XIg&s" alt="logo" class="logo">
+
+        <form id="registrationform">
+            <fieldset class="mb-4">
+                <legend class="label">Seleccione el rol del usuario:</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoRol" id="rolAdmin" value="ADMIN" required onchange="toggleTelefonoField()">
+                    <label class="label" for="rolAdmin">Administrador</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoRol" id="rolDocente" value="DOCENTE" required onchange="toggleTelefonoField()">
+                    <label class="label" for="rolDocente">Docente</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoRol" id="rolAcudiente" value="ACUDIENTE" required onchange="toggleTelefonoField()">
+                    <label class="label" for="rolAcudiente">Acudiente</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoRol" id="rolEstudiante" value="ESTUDIANTE" required onchange="toggleTelefonoField()">
+                    <label class="label" for="rolEstudiante">Estudiante</label>
+                </div>
+            </fieldset>
+
+            <label for="firstname" class="label">Usuario</label>
+            <input type="text" id="firstname" name="nombre" placeholder="Nombres" class="input input-name">
+
+            <label for="lastname" class="label">Apellido</label>
+            <input type="text" id="lastname" name="apellido" placeholder="Apellidos" class="input input-name">
+
+            <label for="correo" class="label">Correo Electronico</label>
+            <input type="email" id="correo" name="correo" placeholder="Correo electronico" class="input input-name">
+
+            <label for="password" class="label">Contraseña</label>
+            <input type="password" id="password" name="contraseña"placeholder="********" class="input input-password">
+
+            <article id="telefonoField">
+                <label for="telefono" class="label">Telefono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Telefono" class="input input-name">
+            </article>
+
+            <article id="parentescoField">
+                <label for="parentesco" class="label">Parentesco</label>
+                <select id="parentesco" name="parentesco" class="input input-name">
+                    <option value="" disabled selected>Seleccione un parentesco</option>
+                    <option value="MADRE">Madre</option>
+                    <option value="PADRE">Padre</option>
+                    <option value="OTRO">Otro</option>
+                </select>
+            </article>
+
+            <article id="estudianteField" class="labeloculto">
+                <label for="estudiante" class="label">Correo del Estudiante Asociado </label>
+                <input type="email" id="estudiante" name="estudiante" placeholder="Correo Estudiante" class="input input-name">
+            </article>
+
+            <button type="submit" value="Ingresar" class="primary-button login-button">Enviar</button>
+
+        </form>
+
+    </article>
+</main>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div th:insert="fragments :: estilos"></div>
+    <title>Plataformas</title>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const button = document.getElementById("toggleClassroom");
+            const button1 = document.getElementById("guardar")
+            const button2 = document.getElementById("toggleMoodle");
+            const button3 = document.getElementById("guardar2")
+            const textarea = document.getElementById("textarea1");
+            const textarea2 = document.getElementById("textarea2");
+            console.log('boton', button);
+            console.log(textarea);
+            textarea.style.display = "none";
+            textarea2.style.display = "none";
+            button1.style.display = "none";
+            button3.style.display = "none";
+
+            button.addEventListener("click", () => {
+
+                if (textarea.style.display === "none") {
+                    textarea.style.display = "block";  // Mostrar el textarea
+                }
+                if (button1.style.display === "none"){
+                    button1.style.display = "block";
+                }
+            });
+
+            button2.addEventListener("click", () => {
+
+                if (textarea2.style.display === "none") {
+                    textarea2.style.display = "block";  // Mostrar el textarea
+                }
+                if (button3.style.display === "none"){
+                    button3.style.display = "block";
+                }
+            });
+
+            button1.addEventListener("click", () => {
+                var id = [[${Classroom.id}]];
+                var url = "/api/contenido/" + id;
+                const requestData = {
+                    titulo: "Classroom",
+                    descripcion: document.getElementById('textarea1').value,
+                    seccion:{
+                        id:5
+                    }
+                };
+
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/'; // Redirige a la página de inicio
+                        } else {
+                            alert('Error al guardar el principio'); // Maneja el error
+                        }
+                    })
+                    .catch(error => {
+                        println(error);
+                        console.error('Error:', error);
+                        alert('Ocurrió un error en la conexión.');
+                    });
+            });
+
+            button3.addEventListener("click", () => {
+                var id = [[${Moodle.id}]];
+                var url = "/api/contenido/" + id;
+                const requestData = {
+                    titulo: "Moodle",
+                    descripcion: document.getElementById('textarea2').value,
+                    seccion:{
+                        id:5
+                    }
+                };
+
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/'; // Redirige a la página de inicio
+                        } else {
+                            alert('Error al guardar el principio'); // Maneja el error
+                        }
+                    })
+                    .catch(error => {
+                        println(error);
+                        console.error('Error:', error);
+                        alert('Ocurrió un error en la conexión.');
+                    });
+            });
+        });
+
+
+
+    </script>
+</head>
+<body>
+<div th:insert="fragments :: header"></div>
+<br><br><br>
+<main class="containerPlataformas">
+    <section class="campus-virtual">
+        <article  class="classroom">
+            <h1>Google Classroom</h1>
+            <a th:href="@{${Classroom.getDescripcion()}}" ><img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7sOrQrKKiPgalRVT5JFtRc-ku-sIqZeFsJw&s" alt="google classroom"></a>
+            <div th:if="${isAdmin}" class="buttons">
+                <button id="toggleClassroom" class="boton1">Editar Enlace de Google classroom</button>
+                <br>
+                <textarea id="textarea1" class="textarea1" placeholder="ingrese el enlace..."></textarea>
+                <br>
+                <button id="guardar" class="boton2">Guardar</button>
+            </div>
+        </article>
+
+        <article class="moodle">
+            <h1>Aulas virtuales-moodle (En Construccion)</h1>
+            <a th:href="@{${Moodle.getDescripcion()}}"><img src="https://dintev.univalle.edu.co/images/Rec-virtuales/02_Campus-Virtual.jpg" alt="Campus virtual"> </a>
+            <div th:if="${isAdmin}" class="buttons">
+                <button id="toggleMoodle" class="boton1">Editar Enlace de Moodle</button>
+                <br>
+                <textarea id="textarea2" class="textarea1" placeholder="ingrese el enlace..."></textarea>
+                <br>
+                <button id="guardar2" class="boton2">Guardar</button>
+            </div>
+        </article>
+    </section>
+
+</main>
+</body>
+</html>

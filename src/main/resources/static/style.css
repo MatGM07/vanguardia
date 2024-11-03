@@ -1,0 +1,444 @@
+:root {
+    --azul-vanguardia: #4f92d5;
+    --azul-bandera: rgb(38, 72, 113);
+}
+
+h1{
+    font-family: "Dancing Script";
+    font-size: 140%;
+}
+
+h1 span {
+    display: block;
+    font-family: "Dancing Script";
+
+}
+
+.subtitle{
+    font-family: "Times New Roman";
+    font-size: 40%;
+}
+
+.title{
+    text-align: center;
+    margin-right: 750px;
+}
+
+* {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+
+body {
+    min-height: 100vh;
+    background-color: rgb(251, 251, 251);
+}
+
+header {
+    display: flex;
+    background-color: #1883e7;
+    box-shadow:0px 0 12px 8px rgba(0,0,0,0.1);
+    padding: 0px 7px;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+header img{
+    width: 86px;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+header .navbar ul{
+    list-style: none;
+}
+
+header .navbar li {
+    position: relative;
+    float: left;
+}
+
+header .navbar ul li a {
+    font-size: 16px;
+    padding: 20px;
+    color: #333;
+    display: block;
+}
+
+header .navbar ul li a:hover {
+    background-color: #576cf6;
+    color: #fff;
+    transition: 0.3s;
+}
+
+header .navbar ul li ul {
+    position: absolute;
+    left:0;
+    width: 200px;
+    background-color: #fff;
+    display: none;
+}
+
+header .navbar ul li ul li {
+    width: 100%;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+header .navbar ul li ul li ul {
+    left: 200px;
+    top:0;
+}
+header .navbar ul li:focus-within > ul,
+header .navbar ul li:hover > ul {
+    display:initial;
+}
+
+.preambulo{
+    p{
+        font-family:Verdana;
+        font-size: 130%;
+        color: darkblue;
+    }
+
+    text-align: center;
+    margin: 50px;
+}
+
+.himno{
+
+    width: 50%; /* o cualquier ancho deseado */
+    margin: 0 auto; /* centrar horizontalmente */
+    text-align: center;
+}
+
+.himnotitle{
+    font-family: "Dancing Script";
+    font-size: 250%;
+}
+
+.estrofa, .coro {
+    margin-bottom: 20px;
+    font-family: Calibri;
+}
+.titulo {
+    text-align: center;
+    font-weight: bold;
+    font-family: Calibri;
+}
+.autor {
+    margin-top: 30px;
+    font-style: italic;
+    text-align: center;
+    font-family: Calibri;
+}
+.section{
+    margin-bottom: 20px;
+}
+
+h3{
+    font-size: 30px;
+    color: #333;
+    font-style: italic;
+}
+
+.container{
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+
+}
+
+.boton1 {
+    background-color: #1883e7;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.boton1::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 70%);
+    transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.boton1:hover::before {
+    width: 400%;
+    height: 400%;
+    opacity: 0.4;
+    top: 50%;
+    left: 50%;
+}
+
+.boton1:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.boton1:active {
+    transform: translateY(0);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+textarea.textarea1 {
+    text-transform: none;
+    display: none;
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: 2px solid #007BFF; /* Borde azul */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #F9F9F9; /* Fondo claro */
+    color: #333; /* Color del texto */
+    resize: vertical; /* Permitir redimensionar solo en vertical */
+    outline: none; /* Sin borde azul al hacer clic */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+textarea.textarea1:focus {
+    border-color: #0056b3; /* Cambiar color de borde al hacer foco */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Sombra azul al hacer foco */
+}
+
+.boton2 {
+    background-color: #1883e7;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.boton2::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 70%);
+    transition: width 0.5s, height 0.5s, top 0.5s, left 0.5s;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.boton2:hover::before {
+    width: 400%;
+    height: 400%;
+    opacity: 0.4;
+    top: 50%;
+    left: 50%;
+}
+
+.boton2:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.boton2:active {
+    transform: translateY(0);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pei-container {
+    width: 80%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-image: url("/images/principal.png");
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.pei-container h1 {
+    text-align: center;
+    font-size: 48px;
+    color: #1883e7;
+    margin-bottom: 20px;
+}
+
+.pei-description {
+    line-height: 1.8;
+    font-size: 18px;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-left: 5px solid #1883e7;
+    border-radius: 5px;
+}
+
+
+p {
+    margin: 0;
+}
+
+.manual{
+    background-image: url("/images/Manual.jpg");
+    background-size: cover;
+
+}
+
+.Manual-container{
+    width: 80%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.manual2{
+    width: 50%; /* o cualquier ancho deseado */
+    margin: 0 auto; /* centrar horizontalmente */
+    text-align: center;
+    background-color: transparent;
+}
+
+.supertitle{
+    text-align: center;
+    font-size: 250%;
+    padding: 100px;
+}
+
+.campus-virtual {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.imgplataformas{
+    width: 200%;
+    height: auto;
+}
+
+.classroom, .moodle {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+.classroom img, .moodle img {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
+    align-items: center;
+}
+
+.classroom h1, .moodle h1 {
+    margin: 24px 0 24px 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+.containerPlataformas {
+    display: flex;
+    justify-content: center;
+
+}
+
+.buttons{
+    padding: 20px;
+    text-align: center;
+}
+
+.plan-estudios {
+    width: 50%;
+}
+
+.plan-estudios h1 {
+    font-family: "Dancing script";
+    font-size: 3em;
+    text-align: center;
+    margin: 0 0 24px 0;
+}
+
+.plan-estudios h2 {
+    margin: 24px 0 24px 0;
+    text-align: center;
+}
+
+.plan-estudios p {
+    margin: 24px 0 40px 0;
+}
+
+.archivos {
+    margin: 80px 0 40px 0;
+    display: flex;
+    width: 80%;
+    gap: 40px;
+    text-align: center;
+}
+
+.archivos .btn-archivo {
+    padding: 24px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin: 24px 0 24px 0;
+    border: none;
+    background-color: var(--azul-vanguardia);
+    border-radius: 4px;
+}
+
+@media (max-width: 850px) {
+    .plan-estudios {
+        margin: 40px 0 0 0;
+        width: 90%;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .plan-estudios p {
+        line-height: 1.7;
+    }
+    .archivos {
+        display: block;
+        margin-top: 40px;
+    }
+    .btn-archivo {
+        width: 90%;
+    }
+}
+
+.containerPlan{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
