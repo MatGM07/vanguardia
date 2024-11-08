@@ -168,4 +168,15 @@ public class VistaController {
         return"academico/plan";
     }
 
+    @GetMapping("/comunicados")
+    public String comunicados(Model model, HttpSession session){
+        List<Contenido> comunicados = contenidoService.findBySeccionNombre("Comunicados");
+        model.addAttribute("comunicados", comunicados);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"administrativo/comunicados";
+    }
 }
