@@ -52,7 +52,7 @@ public class ContenidoController {
 
 
     @PostMapping
-    public ResponseEntity<String> createContenido(@RequestParam("titulo") String titulo, @RequestParam("texto") String descripcion, @RequestParam("archivo") List<MultipartFile> archivos, @RequestParam("seccionid") Long seccionid,HttpSession session){
+    public ResponseEntity<String> createContenido(@RequestParam("titulo") String titulo, @RequestParam(value="texto",required = false) String descripcion, @RequestParam(value = "archivo",required = false) List<MultipartFile> archivos, @RequestParam("seccionid") Long seccionid,HttpSession session){
 
         Optional<Seccion> seccion = seccionService.findById(seccionid);
 
@@ -76,7 +76,9 @@ public class ContenidoController {
             }
 
             contenido.setTitulo(titulo);
-            contenido.setDescripcion(descripcion);
+            if (descripcion != null){
+                contenido.setDescripcion(descripcion);
+            }
             contenido.setFecha_creacion(LocalDate.now());
             contenido.setHora_creacion(LocalTime.now());
             contenido.setSeccion(seccionencontrada);
@@ -84,7 +86,7 @@ public class ContenidoController {
             // Guardar el contenido en la base de datos
             Contenido contenidoGuardado = contenidoService.save(contenido);
 
-            if (!archivos.isEmpty()) {  // Verificar que haya elementos en la lista
+            if (archivos != null && !archivos.isEmpty()) {  // Verificar que haya elementos en la lista
                 String uploadsDir = "src/main/resources/static/uploads/";
                 Path uploadPath = Paths.get(uploadsDir);
 
@@ -178,6 +180,17 @@ public class ContenidoController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteContenido(@PathVariable Long id) {
+        if (contenidoService.findById(id).isPresent()) {
+            System.out.println("holaa");
+            System.out.println(id);
+            contenidoService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 }

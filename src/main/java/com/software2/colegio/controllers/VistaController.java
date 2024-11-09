@@ -179,4 +179,16 @@ public class VistaController {
         }
         return"administrativo/comunicados";
     }
+
+    @GetMapping("/circulares")
+    public String circulares(Model model, HttpSession session){
+        List<Contenido> circulares = contenidoService.findBySeccionNombre("Circulares");
+        model.addAttribute("circulares", circulares);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"administrativo/circulares";
+    }
 }

@@ -45,7 +45,7 @@ public class Contenido {
     @JoinColumn(name = "estudiante_id", nullable = true)
     private Estudiante estudiante;
 
-    @OneToMany(mappedBy = "contenido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contenido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Imagenes> imagenes;
 
     public Contenido() {

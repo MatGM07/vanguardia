@@ -17,6 +17,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Permitir iframes en el mismo origen
+                )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/**").permitAll() // Asegurar todas las rutas API
                         .requestMatchers("/register", "/login").permitAll() // Permitir acceso a registro y login
