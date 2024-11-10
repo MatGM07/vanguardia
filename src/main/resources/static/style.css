@@ -4,6 +4,7 @@
 }
 
 h1{
+    justify-content: left;
     font-family: "Dancing Script";
     font-size: 140%;
 }
@@ -20,12 +21,12 @@ h1 span {
 }
 
 .title{
+    display: flex;
     text-align: center;
-    margin-right: 750px;
+    /* margin-right: 750px; */
 }
 
 * {
-
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -40,13 +41,26 @@ body {
 }
 
 header {
-    display: flex;
-    background-color: #1883e7;
+    /* display: flex;
+    background-color: var(--azul-vanguardia);
     box-shadow:0px 0 12px 8px rgba(0,0,0,0.1);
     padding: 0px 7px;
     align-items: center;
     justify-content: space-between;
+    z-index: 1000; */
+    display: flex;
+    /* max-width: 95%; */
+    margin:12px auto;
+    background-color: #ffffff;
+    box-shadow:0px 0 12px 8px rgba(0,0,0,0.1);
+    padding: 0px 7px;
+    align-items:center;
+    justify-content: space-between;
     z-index: 1000;
+}
+
+header .title {
+    margin: 0;
 }
 
 header img{
