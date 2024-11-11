@@ -2,28 +2,31 @@
     --azul-vanguardia: #4f92d5;
     --azul-bandera: rgb(38, 72, 113);
 }
+a {
+    display: flex;
+    align-items: center;
+}
 
-h1{
-    justify-content: left;
+h1{ 
     font-family: "Dancing Script";
-    font-size: 140%;
+    font-size: 135%;
+    color: black;
+    white-space: normal;
+    text-align: center;
 }
 
 h1 span {
-    display: block;
     font-family: "Dancing Script";
-
 }
 
 .subtitle{
     font-family: "Times New Roman";
-    font-size: 40%;
+    font-size: 45%;
 }
 
 .title{
     display: flex;
     text-align: center;
-    /* margin-right: 750px; */
 }
 
 * {
@@ -37,40 +40,33 @@ h1 span {
 
 body {
     min-height: 100vh;
-    background-color: rgb(251, 251, 251);
+    background-color: rgb(243, 243, 243);
 }
 
 header {
     /* display: flex;
-    background-color: var(--azul-vanguardia);
     box-shadow:0px 0 12px 8px rgba(0,0,0,0.1);
     padding: 0px 7px;
     align-items: center;
     justify-content: space-between;
     z-index: 1000; */
     display: flex;
-    /* max-width: 95%; */
-    margin:12px auto;
-    background-color: #ffffff;
-    box-shadow:0px 0 12px 8px rgba(0,0,0,0.1);
-    padding: 0px 7px;
+    background-color: rgb(171, 211, 251);
+    box-shadow:0px 0 10px 3px rgba(0,0,0,0.2);
     align-items:center;
     justify-content: space-between;
     z-index: 1000;
 }
 
-header .title {
-    margin: 0;
+header img{
+    width: 80px;
+    margin: 24px;
 }
 
-header img{
-    width: 86px;
-    padding: 4px;
-    box-sizing: border-box;
-}
 
 header .navbar ul{
     list-style: none;
+    margin-right: 8px;
 }
 
 header .navbar li {
@@ -79,23 +75,27 @@ header .navbar li {
 }
 
 header .navbar ul li a {
-    font-size: 16px;
-    padding: 20px;
-    color: #333;
+    font-size: 14px;
+    /* background-color: #bee4fc00; */
+    padding: 16px;
+    color: rgb(27, 29, 45);
     display: block;
+    font-weight: 500;
+    font-family: 'Poppins';
 }
 
 header .navbar ul li a:hover {
-    background-color: #576cf6;
-    color: #fff;
-    transition: 0.3s;
+    background-color: white;
+    color: rgb(35, 61, 190);
+    transition: 0.4s;
 }
 
 header .navbar ul li ul {
     position: absolute;
     left:0;
     width: 200px;
-    background-color: #fff;
+
+    background-color: white;
     display: none;
 }
 
@@ -134,6 +134,10 @@ header .navbar ul li:hover > ul {
 .himnotitle{
     font-family: "Dancing Script";
     font-size: 250%;
+}
+
+.estrofa p {
+    background-color: white;
 }
 
 .estrofa, .coro {
