@@ -124,57 +124,6 @@ header .navbar ul li:hover > ul {
     margin: 50px;
 }
 
-.himno{
-
-    width: 50%; /* o cualquier ancho deseado */
-    margin: 0 auto; /* centrar horizontalmente */
-    text-align: center;
-}
-
-.himnotitle{
-    font-family: "Dancing Script";
-    font-size: 250%;
-}
-
-.estrofa p {
-    background-color: white;
-}
-
-.estrofa, .coro {
-    margin-bottom: 20px;
-    font-family: Calibri;
-}
-.titulo {
-    text-align: center;
-    font-weight: bold;
-    font-family: Calibri;
-}
-.autor {
-    margin-top: 30px;
-    font-style: italic;
-    text-align: center;
-    font-family: Calibri;
-}
-.section{
-    margin-bottom: 20px;
-}
-
-h3{
-    font-size: 30px;
-    color: #333;
-    font-style: italic;
-}
-
-.container{
-    text-align: center;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 50px;
-
-}
-
 .boton1 {
     background-color: #1883e7;
     color: white;
@@ -433,6 +382,12 @@ p {
     border: none;
     background-color: var(--azul-vanguardia);
     border-radius: 4px;
+}
+
+@media (max-width: 1300px) {
+    .title {
+        display: none;
+    }
 }
 
 @media (max-width: 850px) {
