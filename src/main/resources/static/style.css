@@ -39,7 +39,7 @@ h1 span {
 }
 
 body {
-    min-height: 100vh;
+    min-height: calc(100vh - 128px);
     background-color: rgb(243, 243, 243);
 }
 
@@ -81,6 +81,7 @@ header .navbar ul li a {
     color: rgb(27, 29, 45);
     display: block;
     font-weight: 500;
+    transition: 0.4s;
     font-family: 'Poppins';
 }
 
@@ -94,34 +95,37 @@ header .navbar ul li ul {
     position: absolute;
     left:0;
     width: 200px;
-
     background-color: white;
     display: none;
 }
 
 header .navbar ul li ul li {
     width: 100%;
+    transition: 0.4s;
     border-top: 1px solid rgba(0,0,0,.1);
 }
 
 header .navbar ul li ul li ul {
     left: 200px;
+    transition: 0.4s;
     top:0;
 }
 header .navbar ul li:focus-within > ul,
 header .navbar ul li:hover > ul {
+    transition: 0.9s;
     display:initial;
 }
 
-.preambulo{
-    p{
+.preambulo {
+    text-align: center;
+}
+
+.preambulo p{
         font-family:Verdana;
         font-size: 130%;
         color: darkblue;
-    }
-
-    text-align: center;
-    margin: 50px;
+        line-height: 1.5;
+        margin: 24px 250px 0 250px;
 }
 
 .boton1 {
@@ -363,6 +367,7 @@ p {
 
 .plan-estudios p {
     margin: 24px 0 40px 0;
+    line-height: 2;
 }
 
 .archivos {

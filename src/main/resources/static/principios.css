@@ -1,24 +1,27 @@
 .container {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .principios-valores {
-    margin: 40px 0 0 0;
-    line-height: 2;
+    display: flex;
+    justify-content: space-between;
+    line-height: 1.5;
     text-align: left;
-    padding: 24px;
+    padding: 48px 0 0 0;
     box-sizing: border-box;
-    width: 60%;
+    width: 70%;
 }
 
 section .principios {
-    min-width: 600px
-    
+    width: 45%;
+    /* min-width: 300px; */
 }
 
 section .valores {
-    min-width: 600px;
+    width: 45%;
+    /* min-width: 300px; */
 }
 
 .principios-valores h2 {
@@ -28,10 +31,6 @@ section .valores {
     border-radius: 8px;
     padding: 24px;
     box-sizing: border-box;
-}
-
-.valores h2 {
-    margin: 32px 0 0 0;
 }
 
 .principios-valores p {
@@ -50,8 +49,23 @@ ol {
     unicode-bidi: isolate;
 }
 
-@media (max-width: 640px) {
+@media (max-width:1000px) {
+    .principios-valores {
+        width: 80%;
+    }
+}
+
+
+@media (max-width: 700px) {
     .principios-valores {
         flex-wrap: wrap;
+        width: 90%;
+    }
+    section .principios {
+        width: 95%;
+        /* min-width: 300px; */
+    }
+    section .valores {
+        width: 95%;
     }
 }
