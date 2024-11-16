@@ -5,6 +5,7 @@ import com.software2.colegio.models.Contenido;
 import com.software2.colegio.services.ContenidoService;
 import com.software2.colegio.services.ImagenesService;
 import com.software2.colegio.services.SeccionService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,7 +54,8 @@ public class ContenidoController {
 
 
     @PostMapping
-    public ResponseEntity<String> createContenido(@RequestParam("titulo") String titulo, @RequestParam(value="texto",required = false) String descripcion, @RequestParam(value = "archivo",required = false) List<MultipartFile> archivos, @RequestParam("seccionid") Long seccionid,HttpSession session){
+    public ResponseEntity<String> createContenido(@RequestParam("titulo") String titulo, @RequestParam(value="texto",required = false) String descripcion, @RequestParam(value = "archivo",required = false) List<MultipartFile> archivos, @RequestParam("seccionid") Long seccionid,HttpSession session,
+                                                  HttpServletRequest request){
 
         Optional<Seccion> seccion = seccionService.findById(seccionid);
 
@@ -125,7 +128,19 @@ public class ContenidoController {
                 }
             }
 
-            return ResponseEntity.ok("Comunicado y archivos guardados exitosamente.");
+            String referer = request.getHeader("Referer");
+            if (referer != null && !referer.isBlank()) {
+                // Redirigir de vuelta a la URL de origen
+                URI redirectUri = URI.create(referer);
+                return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                        .location(redirectUri)
+                        .build();
+            }
+
+            // Si no hay Referer, redirigir a una URL predeterminada
+            return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                    .location(URI.create("/default-url"))
+                    .build();
 
         } catch (IOException e) {
             e.printStackTrace();

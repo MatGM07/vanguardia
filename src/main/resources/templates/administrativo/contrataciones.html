@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+
+
+        function eliminarAño(año) {
+
+            const url = `/api/seccion/21/${año}/e`;
+
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Año eliminado correctamente');
+                        // Opcional: recargar la página para reflejar los cambios o actualizar el DOM
+                        location.reload();
+                    } else {
+                        alert('Error al eliminar el año');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error en la conexión.');
+                });
+        }
+
+        function agregarAño(año) {
+
+            if (!isValidYear(año)) {
+                alert('Por favor ingrese un año válido (número entero positivo).');
+                return;
+            }
+
+            const url = `/api/seccion/21/${año}/a`;
+
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Año agregado correctamente');
+                        // Opcional: recargar la página para reflejar los cambios o actualizar el DOM
+                        location.reload();
+                    } else {
+                        alert('Error al eliminar el año');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error en la conexión.');
+                });
+        }
+
+        function isValidYear(year) {
+            const yearValue = year.trim(); // Eliminar espacios extra
+            // Verificar si es un número entero positivo
+            const regex = /^[1-9]\d*$/;
+            return regex.test(yearValue);
+        }
+
+    </script>
+</head>
+<body>
+<div th:if="${años != null and !#lists.isEmpty(años)}" >
+    <div th:each="año : ${años}" th:if="${año != null and !año.isEmpty()}">
+        <p>
+            <a th:href="@{/content/contratacionanual/{año}(año=${año})}" th:text="${año}"></a>
+        <div th:if="${isAdmin}">
+            <button type="button" class="btn-eliminar" th:data-año="${año}">Eliminar Año</button>
+        </div>
+        </p>
+    </div>
+
+</div>
+<div th:if="${isAdmin}">
+    <input type="text" id="nuevoAño" name="nuevoAño">
+    <button type="button" class="btn-add">Agregar Año</button>
+</div>
+
+
+<script>
+
+    document.querySelectorAll('.btn-eliminar').forEach(button => {
+        button.addEventListener('click', function() {
+            const año = this.getAttribute('data-año');
+            eliminarAño(año);
+        });
+    });
+
+    document.querySelectorAll('.btn-add').forEach(button => {
+        button.addEventListener('click', function() {
+            const año = document.getElementById("nuevoAño").value;
+            agregarAño(año);
+        });
+    });
+</script>
+</body>
+</html>

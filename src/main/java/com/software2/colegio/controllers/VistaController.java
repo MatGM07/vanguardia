@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/content")
@@ -191,4 +189,178 @@ public class VistaController {
         }
         return"administrativo/circulares";
     }
+
+    @GetMapping("/rendicion")
+    public String rendicion(Model model, HttpSession session){
+        Optional<Seccion> listaAños = seccionService.findById(Long.valueOf(10));
+
+        String años = listaAños.get().getDescripcion();
+
+        String[] elementos = años.split(",");
+
+        List<String> listaDeAños = Arrays.asList(elementos);
+
+        List<Contenido> rendiciones = contenidoService.findBySeccionNombre("Rendiciones");
+        model.addAttribute("años", listaDeAños);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"administrativo/rendicion";
+    }
+
+    @GetMapping("/rendicionanual/{año}")
+    public String rendicion(@PathVariable Long año, Model model, HttpSession session ){
+        String nombre = "Rendiciones"+año;
+        model.addAttribute("año", año);
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre(nombre);
+        Optional<Seccion> seccionActual = seccionService.findByNombre(nombre);
+        long id = seccionActual.get().getId();
+
+        model.addAttribute("id", id);
+        if (!contenidos.isEmpty()){
+            model.addAttribute("contenidos",contenidos);
+        }
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return "administrativo/rendicionanual";
+    }
+
+    @GetMapping("/convocatorias")
+    public String convocatorias(Model model, HttpSession session){
+        Optional<Seccion> listaAños = seccionService.findById(Long.valueOf(18));
+
+        String años = listaAños.get().getDescripcion();
+
+        String[] elementos = años.split(",");
+
+        List<String> listaDeAños = Arrays.asList(elementos);
+
+        List<Contenido> Convocatorias = contenidoService.findBySeccionNombre("Convocatorias");
+        model.addAttribute("años", listaDeAños);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"administrativo/convocatorias";
+    }
+
+    @GetMapping("/convocatoriaanual/{año}")
+    public String convocatoriaAnual(@PathVariable Long año, Model model, HttpSession session ){
+        String nombre = "Convocatorias"+año;
+        model.addAttribute("año", año);
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre(nombre);
+        Optional<Seccion> seccionActual = seccionService.findByNombre(nombre);
+        long id = seccionActual.get().getId();
+
+        model.addAttribute("id", id);
+        if (!contenidos.isEmpty()){
+            model.addAttribute("contenidos",contenidos);
+        }
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return "administrativo/convocatoriaanual";
+    }
+
+    @GetMapping("/contrataciones")
+    public String contrataciones(Model model, HttpSession session){
+        Optional<Seccion> listaAños = seccionService.findById(Long.valueOf(21));
+
+        String años = listaAños.get().getDescripcion();
+
+        String[] elementos = años.split(",");
+
+        List<String> listaDeAños = Arrays.asList(elementos);
+
+        List<Contenido> Contrataciones = contenidoService.findBySeccionNombre("Contrataciones");
+        if (años!=""){
+            model.addAttribute("años", listaDeAños);
+        }else {
+            model.addAttribute("años", new ArrayList<>());
+        }
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"administrativo/contrataciones";
+    }
+
+    @GetMapping("/contratacionanual/{año}")
+    public String contratacionAnual(@PathVariable Long año, Model model, HttpSession session ){
+        String nombre = "Contrataciones"+año;
+        model.addAttribute("año", año);
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre(nombre);
+        Optional<Seccion> seccionActual = seccionService.findByNombre(nombre);
+        long id = seccionActual.get().getId();
+
+        model.addAttribute("id", id);
+        if (!contenidos.isEmpty()){
+            model.addAttribute("contenidos",contenidos);
+        }
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return "administrativo/contratacionanual";
+    }
+
+    @GetMapping("/pedagogicos")
+    public String pedagogicos(Model model, HttpSession session){
+        List<Contenido> pedagogicos = contenidoService.findBySeccionNombre("Pedagogicos");
+        model.addAttribute("pedagogicos", pedagogicos);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"proyectos/pedagogicos";
+    }
+
+    @GetMapping("/academicos")
+    public String academicos(Model model, HttpSession session){
+        List<Contenido> academicos = contenidoService.findBySeccionNombre("Pedagogicos");
+        model.addAttribute("academicos", academicos);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"proyectos/academicos";
+    }
+
+    @GetMapping("/aula")
+    public String aula(Model model, HttpSession session){
+        List<Contenido> aula = contenidoService.findBySeccionNombre("Pedagogicos");
+        model.addAttribute("aula", aula);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"proyectos/aula";
+    }
+
+    @GetMapping("/mercado")
+    public String mercado(Model model, HttpSession session){
+        List<Contenido> mercado = contenidoService.findBySeccionNombre("Pedagogicos");
+        model.addAttribute("mercado", mercado);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"mercado";
+    }
+
+
 }

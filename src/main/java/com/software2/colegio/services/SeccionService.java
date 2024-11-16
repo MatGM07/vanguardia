@@ -1,5 +1,6 @@
 package com.software2.colegio.services;
 
+import com.software2.colegio.models.Contenido;
 import com.software2.colegio.models.Seccion;
 
 import com.software2.colegio.repositories.SeccionRepository;
@@ -29,5 +30,7 @@ public class SeccionService {
     public void deleteById(long id){
         seccionRepository.deleteById(id);
     }
-
+    public Optional<Seccion> findByNombre(String nombre) {
+        return seccionRepository.findByNombre(nombre);
+    }
 }
