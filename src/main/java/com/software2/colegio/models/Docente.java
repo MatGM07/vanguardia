@@ -67,8 +67,6 @@ public class Docente extends Usuario {
         return "Docente{" +
                 "id=" + id +
                 ", telefono=" + telefono +
-                ", reunions=" + reunions +
-                ", contenidos=" + contenidos +
                 '}';
     }
 }

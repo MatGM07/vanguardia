@@ -56,7 +56,6 @@ public class Estudiante extends Usuario {
         return "Estudiante{" +
                 "id=" + id +
                 ", acudientes=" + acudientes +
-                ", contenidos=" + contenidos +
                 ", " + super.toString() +
                 '}';
     }

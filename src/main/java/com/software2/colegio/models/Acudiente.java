@@ -89,10 +89,6 @@ public class Acudiente extends Usuario {
         return "Acudiente{" +
                 "id=" + id +
                 ", telefono=" + telefono +
-                ", parentezco='" + parentezco + '\'' +
-                ", estudiante=" + estudiante +
-                ", contenidos=" + contenidos +
-                ", reunions=" + reunions +
                 '}';
     }
 }

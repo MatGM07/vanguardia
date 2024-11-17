@@ -185,8 +185,6 @@ public class Contenido {
                 ", fecha_modificacion=" + fecha_modificacion +
                 ", hora_modificacion=" + hora_modificacion +
                 ", admin=" + admin.getNombre() +
-
-                ", imagenes=" + imagenes +
                 '}';
     }
 }
