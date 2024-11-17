@@ -139,7 +139,7 @@ public class ContenidoController {
 
             // Si no hay Referer, redirigir a una URL predeterminada
             return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                    .location(URI.create("/default-url"))
+                    .location(URI.create("/"))
                     .build();
 
         } catch (IOException e) {

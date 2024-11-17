@@ -316,8 +316,10 @@ public class VistaController {
 
     @GetMapping("/pedagogicos")
     public String pedagogicos(Model model, HttpSession session){
-        List<Contenido> pedagogicos = contenidoService.findBySeccionNombre("Pedagogicos");
-        model.addAttribute("pedagogicos", pedagogicos);
+        List<Seccion> listaproyectos = seccionService.findByDescripcion("Proyecto Pedagogico");
+        if(!listaproyectos.isEmpty()){
+            model.addAttribute("proyectos", listaproyectos);
+        }
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
@@ -326,17 +328,37 @@ public class VistaController {
         return"proyectos/pedagogicos";
     }
 
-    @GetMapping("/academicos")
-    public String academicos(Model model, HttpSession session){
-        List<Contenido> academicos = contenidoService.findBySeccionNombre("Pedagogicos");
-        model.addAttribute("academicos", academicos);
+    @GetMapping("/proyectoindi/{id}")
+    public String pedagogicoIndividual(@PathVariable Long id ,Model model, HttpSession session){
+        Optional<Seccion> seccionOptional = seccionService.findById(id);
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre(seccionOptional.get().getNombre());
+        model.addAttribute("contenidos", contenidos);
+        model.addAttribute("seccion",seccionOptional.get());
+
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
             model.addAttribute("isAdmin", isAdmin);
         }
-        return"proyectos/academicos";
+
+        return"proyectos/especifico";
     }
+
+    @GetMapping("/productivos")
+    public String productivos(Model model, HttpSession session){
+        List<Seccion> listaproyectos = seccionService.findByDescripcion("Proyecto Productivo");
+        if(!listaproyectos.isEmpty()){
+            model.addAttribute("proyectos", listaproyectos);
+        }
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return"proyectos/productivos";
+    }
+
+
 
     @GetMapping("/aula")
     public String aula(Model model, HttpSession session){
@@ -352,15 +374,19 @@ public class VistaController {
 
     @GetMapping("/mercado")
     public String mercado(Model model, HttpSession session){
-        List<Contenido> mercado = contenidoService.findBySeccionNombre("Pedagogicos");
-        model.addAttribute("mercado", mercado);
+
+        return"mercado/campesino";
+    }
+
+    @GetMapping("/periodico")
+    public String periodico(Model model, HttpSession session){
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre("Periodico");
+        model.addAttribute("contenidos", contenidos);
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
             model.addAttribute("isAdmin", isAdmin);
         }
-        return"mercado";
+        return"periodico/institucional";
     }
-
-
 }

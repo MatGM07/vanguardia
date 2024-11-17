@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .incidencia {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .images-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .images-container img:hover {
+            transform: scale(1.05);
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Proyectos pedagogicos</h1>
+    <div th:each="proyecto : ${proyectos}" class="incidencia">
+        <h3><a th:href="@{/content/proyectoindi/{id}(id=${proyecto.id})}" th:text="${proyecto.nombre}">>Título del Proyecto Pedagogico</a></h3>
+        <div th:if="${isAdmin}">
+            <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${proyecto.id} + ')'">Eliminar</button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Formulario para agregar un nuevo comunicado -->
+<div class="form-container">
+    <div th:if="${isAdmin}">
+        <h2>Agregar nuevo fragmento de proyecto</h2>
+        <form th:action="@{/api/seccion}" method="post" enctype="multipart/form-data">
+            <label for="nombre">Título:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <input type="hidden" name="tipo" id="tipo" value="Pedagogico">
+            <button type="submit" id="guardar">Enviar Comunicado</button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    function deleteIncidencia(id) {
+        const longId = BigInt(id);
+
+        if (confirm("¿Estás seguro de que deseas eliminar esta incidencia?")) {
+            fetch(`/api/seccion/${longId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Incidencia eliminada correctamente");
+                        // Recargar la página para actualizar la lista
+                        location.reload();
+                    } else {
+                        alert("Error al eliminar la incidencia");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Hubo un problema al eliminar la incidencia");
+                });
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

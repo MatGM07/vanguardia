@@ -33,4 +33,7 @@ public class SeccionService {
     public Optional<Seccion> findByNombre(String nombre) {
         return seccionRepository.findByNombre(nombre);
     }
+    public List<Seccion> findByDescripcion(String descripcion) {
+        return seccionRepository.findByDescripcion(descripcion);
+    }
 }

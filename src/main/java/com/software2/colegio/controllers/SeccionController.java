@@ -1,15 +1,19 @@
 package com.software2.colegio.controllers;
 
 
+import com.software2.colegio.models.Admin;
 import com.software2.colegio.models.Contenido;
 import com.software2.colegio.models.Seccion;
 import com.software2.colegio.services.ContenidoService;
 import com.software2.colegio.services.SeccionService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,34 @@ public class SeccionController {
 
     @Autowired
     private ContenidoService contenidoService;
+
+
+    @PostMapping
+    public ResponseEntity<String> createSeccion(@RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, HttpSession session, HttpServletRequest request){
+        Seccion nuevaSeccion = new Seccion();
+        nuevaSeccion.setNombre(nombre);
+        if (Objects.equals(tipo, "Pedagogico")){
+            nuevaSeccion.setDescripcion("Proyecto Pedagogico");
+        } else if (Objects.equals(tipo, "Aula")) {
+            nuevaSeccion.setDescripcion("Proyecto de Aula");
+        } else if (Objects.equals(tipo, "Productivo")) {
+            nuevaSeccion.setDescripcion("Proyecto Productivo");
+        }
+        seccionService.save(nuevaSeccion);
+        String referer = request.getHeader("Referer");
+        if (referer != null && !referer.isBlank()) {
+            // Redirigir de vuelta a la URL de origen
+            URI redirectUri = URI.create(referer);
+            return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                    .location(redirectUri)
+                    .build();
+        }
+
+        // Si no hay Referer, redirigir a una URL predeterminada
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create("/"))
+                .build();
+    }
 
     @PutMapping("/{id}/{año}/{accion}")
     public ResponseEntity<Seccion> updateSeccion(@PathVariable Long id, @PathVariable String año, @PathVariable String accion){
@@ -122,6 +154,23 @@ public class SeccionController {
             }
 
         }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSeccion(@PathVariable Long id){
+        if (seccionService.findById(id).isPresent()) {
+            String nombreSeccion = seccionService.findById(id).get().getNombre();
+            if (!contenidoService.findBySeccionNombre(nombreSeccion).isEmpty()){
+                List<Contenido> contenidoTotal = contenidoService.findBySeccionNombre(nombreSeccion);
+                for (Contenido contenido: contenidoTotal) {
+                    contenidoService.deleteById(contenido.getId());
+                }
+            }
+            seccionService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

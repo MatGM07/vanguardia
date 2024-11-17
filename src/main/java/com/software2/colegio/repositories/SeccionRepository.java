@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface SeccionRepository extends JpaRepository<Seccion, Long> {
     Optional<Seccion> findByNombre(String nombre);
+    List<Seccion> findByDescripcion(String Descripcion);
 }
