@@ -7,39 +7,15 @@
     <link rel="stylesheet" href="/comunicados.css">
     <link rel="stylesheet" href="/style.css">
     <title>Comunicados - Foro Escolar</title>
-
-    <style>
-        .incidencia {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .images-container {
-            margin-top: 10px;
-        }
-        .images-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .images-container img:hover {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
-<h1 class="circulares">Comunicados</h1>
-<div class="container">
+<h1 class="titulo-circulares">Comunicados</h1>
+<h2>Incidencias actuales</h2>
+<!-- <div class="container"> -->
 
     <!-- Sección para mostrar los comunicados actuales -->
-    <div id="current-issues">
-        <h2>Incidencias actuales</h2>
+    <div class="container">
         <div th:each="comunicado : ${comunicados}" class="incidencia">
             <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3>
             <p th:text="${comunicado.descripcion}">Texto del Comunicado</p>
@@ -64,7 +40,7 @@
     </div>
 
     <!-- Formulario para agregar un nuevo comunicado -->
-    <div class="form-container">
+    <div class="container">
         <div th:if="${isAdmin}">
             <h2>Agregar nuevo comunicado</h2>
             <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
@@ -83,7 +59,7 @@
             </form>
         </div>
     </div>
-</div>
+<!-- </div> -->
 
 <!-- Modal para mostrar la imagen en tamaño completo -->
 <div id="imageModal" class="modal" onclick="closeModal()">
