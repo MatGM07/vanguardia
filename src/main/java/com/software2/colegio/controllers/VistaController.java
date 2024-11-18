@@ -389,4 +389,9 @@ public class VistaController {
         }
         return"periodico/institucional";
     }
+
+    @GetMapping("/ra")
+    public String realidadAumentada(){
+        return "ra";
+    }
 }

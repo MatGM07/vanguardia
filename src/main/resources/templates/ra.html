@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Respuestas Aritméticas con Detección Facial</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1/dist/face-api.js" defer></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        video {
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+        canvas {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .game-info {
+            position: absolute;
+            top: 20%;
+            font-size: 24px;
+            color: white;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .answer {
+            position: absolute;
+            font-size: 30px;
+            color: white;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        #left-answer {
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #right-answer {
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <video id="video" autoplay muted></video>
+    <canvas id="overlay"></canvas>
+    <div class="game-info" id="game-info">¡Resuelve la operación!</div>
+    <div class="answer" id="left-answer">0</div>
+    <div class="answer" id="right-answer">0</div>
+</div>
+
+<script>
+    window.onload = async function() {
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('overlay');
+        const ctx = canvas.getContext('2d');
+        const gameInfo = document.getElementById('game-info');
+        const leftAnswer = document.getElementById('left-answer');
+        const rightAnswer = document.getElementById('right-answer');
+        const gameContainer = document.querySelector('.game-container');
+
+        let correctAnswer = '';
+        let score = 0;
+        let canAnswer = true;
+        let timeLeft = 60; // Tiempo en segundos
+
+        async function setupCamera() {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+
+            return new Promise(resolve => {
+                video.onloadedmetadata = () => {
+                    resolve(video);
+                };
+            });
+        }
+
+        async function startApp() {
+            await setupCamera();
+            video.play();
+
+            if (typeof faceapi === 'undefined') {
+                console.error('Face-api.js no está definido');
+                return;
+            }
+
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            startGame();
+            startTimer(); // Inicia el temporizador
+            detectFaces();
+        }
+
+        async function detectFaces() {
+            const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options())
+                .withFaceLandmarks();
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            if (detections.length > 0 && canAnswer) {
+                detections.forEach(detection => {
+                    const landmarks = detection.landmarks.positions;
+
+                    const [leftEye] = landmarks.slice(36, 37);
+                    const [rightEye] = landmarks.slice(45, 46);
+
+                    const headTilt = leftEye.y - rightEye.y;
+                    const tiltThreshold = 20;
+
+                    if (headTilt > tiltThreshold) {
+                        checkAnswer('left');
+                    } else if (headTilt < -tiltThreshold) {
+                        checkAnswer('right');
+                    }
+                });
+            }
+
+            if (timeLeft > 0) {
+                requestAnimationFrame(detectFaces);
+            }
+        }
+
+        function startGame() {
+            canAnswer = true;
+
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const currentOperation = `${num1} + ${num2}`;
+            correctAnswer = num1 + num2;
+
+            let wrongAnswer;
+            do {
+                wrongAnswer = correctAnswer + (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 3) + 1);
+            } while (wrongAnswer === correctAnswer);
+
+            const leftChoice = Math.random() > 0.5 ? correctAnswer : wrongAnswer;
+            const rightChoice = leftChoice === correctAnswer ? wrongAnswer : correctAnswer;
+
+            leftAnswer.textContent = leftChoice;
+            rightAnswer.textContent = rightChoice;
+            gameInfo.textContent = `Resuelve: ${currentOperation}`;
+        }
+
+        function checkAnswer(answer) {
+            if (!canAnswer) return;
+
+            canAnswer = false;
+            const chosenAnswer = answer === 'left' ? parseInt(leftAnswer.textContent) : parseInt(rightAnswer.textContent);
+
+            if (chosenAnswer === correctAnswer) {
+                score++;
+                gameInfo.textContent = `¡Correcto! Puntaje: ${score}`;
+            } else {
+                gameInfo.textContent = `Incorrecto. Puntaje: ${score}`;
+            }
+
+            setTimeout(() => {
+                if (timeLeft > 0) startGame();
+            }, 2000);
+        }
+
+        function startTimer() {
+            const timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    // Actualiza solo el tiempo restante
+                    const currentOperation = gameInfo.textContent.split("|")[0].trim(); // Mantiene solo la operación actual
+                    gameInfo.textContent = `${currentOperation} | Tiempo restante: ${timeLeft}s`;
+                } else {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            canAnswer = false;
+            gameInfo.textContent = `¡Tiempo terminado! Puntaje final: ${score}`;
+
+            // Muestra el botón para reiniciar
+            const restartButton = document.createElement('button');
+            restartButton.textContent = 'Volver a empezar';
+            restartButton.style.marginTop = '20px';
+            restartButton.style.padding = '10px 20px';
+            restartButton.style.fontSize = '20px';
+            restartButton.style.cursor = 'pointer';
+
+            restartButton.onclick = () => {
+                location.reload(); // Refresca la página
+            };
+
+            gameContainer.appendChild(restartButton);
+        }
+
+        startApp();
+    }
+</script>
+
+
+
+</body>
+</html>
