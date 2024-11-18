@@ -1,0 +1,32 @@
+.titulo-sedes {
+    margin: 40px auto;
+}
+.titulo-sedes h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    font-family: 'Poppins';
+    color: rgb(70, 77, 83);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container-sedes {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
+
+.container-sedes img {
+    width: 100%;
+}
+
+@media (max-width: 800px) {
+    .container-sedes {
+        width: 90%;;
+    }
+}

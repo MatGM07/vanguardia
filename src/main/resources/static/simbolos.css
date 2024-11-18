@@ -1,0 +1,96 @@
+.himno{
+
+    width: 80%; /* o cualquier ancho deseado */
+    margin: 0 auto; /* centrar horizontalmente */
+    text-align: center;
+}
+
+.sound-player {
+    width: 96%;
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+.simbolos{
+    width: 50%; /* o cualquier ancho deseado */
+    margin: 0 auto; /* centrar horizontalmente */
+    text-align: center;
+}
+
+img {
+    width: 60%;
+}
+
+.himnotitle{
+    font-family: "Dancing Script";
+    font-size: 250%;
+}
+
+.himno-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.estrofa, .coro {
+    line-height: 2;
+    padding: 24px;
+    background-color: white;
+    min-width: 366px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-family: Calibri;
+    box-shadow: 2px 2px 5px 5px rgb(0, 0, 0, 0.1);
+}
+
+.autor {
+    width: 100%;
+}
+
+.titulo {
+    text-align: center;
+    font-weight: bold;
+    font-family: Calibri;
+}
+.autor {
+    margin-top: 30px;
+    font-style: italic;
+    text-align: center;
+    font-family: Calibri;
+}
+.section{
+    margin-bottom: 20px;
+    text-align: left;
+    line-height: 1.5;
+    
+}
+
+.label{
+    line-height: 1.5;
+}
+
+h3{
+    font-size: 30px;
+    color: #333;
+    font-style: italic;
+}
+
+.container{
+    text-align: center;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 50px;
+}
+
+@media (max-width: 800px ) {
+    .simbolos {
+        width: 80%;
+    }
+    img {
+        width: 80%;
+    }   
+}

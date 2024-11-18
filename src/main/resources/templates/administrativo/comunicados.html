@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/comunicados.css">
+    <link rel="stylesheet" href="/style.css">
     <title>Comunicados - Foro Escolar</title>
 
     <style>
@@ -27,39 +30,12 @@
         .images-container img:hover {
             transform: scale(1.05);
         }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            max-width: 80%;
-            max-height: 80%;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
-
+<div th:insert="fragments :: header"></div>
+<h1 class="circulares">Comunicados</h1>
 <div class="container">
-    <h1>Comunicados</h1>
 
     <!-- Sección para mostrar los comunicados actuales -->
     <div id="current-issues">

@@ -57,42 +57,35 @@
                     });
             });
         });
-
-
-
     </script>
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
-    <section class="supertitle">
-        <h1>Manual de Convivencia</h1>
-    </section>
 
+<section class="supertitle">
+    <h1>Manual de Convivencia</h1>
+</section>
 <main class="manual">
-    <section class="manual2">
-        <br><br>
-        <br><br>
+    <section class="container">
         <article class="Manual-container">
-
             <p class="pei-description">El manual de convivencia es una herramienta fundamental para la vida escolar, ya que establece las normas, deberes y derechos que deben regir las interacciones entre todos los miembros de la comunidad educativa: estudiantes, docentes, directivos y padres de familia. Su principal objetivo es fomentar un ambiente de respeto, tolerancia y colaboración que promueva el desarrollo integral de los estudiantes en un entorno seguro y armónico.</p>
         </article>
-        <br><br>
-        <br><br>
-        <br><br>
-        <div th:unless="${noManual}">
-            <iframe style="width: 100%; height: 800px;" th:src="@{${contenido.getDescripcion()}}" width="100%" height="800" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+        <div class="pei-pdf" th:unless="${noManual}">
+            <iframe th:src="@{${contenido.getDescripcion()}}" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
         </div>
-        <br><br>
-        <div th:if="${isAdmin}">
-            <button id="toggleManual" class="boton1">Editar Enlace de Manual de Convivencia</button>
-            <br>
-            <textarea id="textarea1" class="textarea1" placeholder="ingrese el enlace..."></textarea>
-            <br>
-            <button id="guardar" class="boton2">Guardar</button>
-        </div>
-        <br><br><br>
+        <section class="manual2">
+            <br><br>
+            <br><br>
+            <div th:if="${isAdmin}">
+                <button id="toggleManual" class="boton1">Editar Enlace de Manual de Convivencia</button>
+                <br>
+                <textarea id="textarea1" class="textarea1" placeholder="ingrese el enlace..."></textarea>
+                <br>
+                <button id="guardar" class="boton2">Guardar</button>
+            </div>
+            <br><br><br>
+        </section>
     </section>
-
 </main>
 </body>
 </html>
