@@ -1,8 +1,12 @@
 <header th:fragment="header">
-    <a href="#" class="logo"><img src="/images/Logo.png" alt="logo"></a>
-    <section class="title">
-        <h1>Institucion Educativa Rural <span>Vanguardia</span><span class="subtitle">¡CON PASO FIRME HACIA LA EXCELENCIA PERSONAL!</span></h1>
-    </section>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <a href="#" class="logo"><img src="/images/Logo.png" alt="logo">
+        <section class="title">
+            <h1>Institucion Educativa Rural <br><span>Vanguardia</span><br><span class="subtitle">¡CON PASO FIRME HACIA LA EXCELENCIA PERSONAL!</span></h1>
+        </section></a>
+    
     <nav class="navbar">
         <ul>
             <li><a href="/">Inicio</a></li>
@@ -15,7 +19,13 @@
                     <li><a href="/content/sedes">Sedes</a>
                 </ul>
             </li>
-            <li><a href="">Gestión administrativa</a></li>
+            <li><a href="">Gestión administrativa +</a>
+                <ul>
+                    <li><a href="/content/circulares">Circulares</a></li>
+                    <li><a href="/content/comunicados">Comunicados</a></li>
+                    <!-- <li><a href="/content/"></a></li> -->
+                </ul>
+            </li>
             <li><a href="">Gestión académica</a>
                 <ul>
                     <li><a href="/content/pei">PEI</a></li>

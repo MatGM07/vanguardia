@@ -1,3 +1,14 @@
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-image: url("images/Fondo.jpg");
+    background-repeat:3;
+    background-position: center;
+    height: calc(100vh - 128px);
+}
+
+
 .mision-vision {
     display: flex;
     justify-content: center;
@@ -5,15 +16,16 @@
     gap: 80px;
     line-height: 2;
     text-align: center;
-    padding: 24px;
+    padding: 48px;
     box-sizing: border-box;
-    background-image: url("images/Fondo.jpg");
-    height: 1080px;
+    height: calc(100vh - 128);
+    width: 100%;
 }
 
 
 section .mision {
     width: 350px;
+
     
 }
 
@@ -37,8 +49,9 @@ section .vision {
 }
 
 
-@media (max-width: 640px) {
+@media (max-width: 800px) {
     .mision-vision {
         flex-wrap: wrap;
+        text-align: left;
     }
 }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+    <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div th:insert="fragments :: estilos"></div>
     <title>Plataformas</title>
-    <script>
 
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
             const button = document.getElementById("toggleClassroom");
             const button1 = document.getElementById("guardar")
@@ -104,19 +106,18 @@
                     });
             });
         });
-
-
-
     </script>
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
-<br><br><br>
+<div class="titulo-plataforma">
+    <h1>Bienvenido a tu entorno virtual</h1>
+</div>
 <main class="containerPlataformas">
     <section class="campus-virtual">
-        <article  class="classroom">
+        <article class="classroom">
             <h1>Google Classroom</h1>
-            <a th:href="@{${Classroom.getDescripcion()}}" ><img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7sOrQrKKiPgalRVT5JFtRc-ku-sIqZeFsJw&s" alt="google classroom"></a>
+            <a th:href="@{${Classroom.getDescripcion()}}" ><img  src="/images/classroom.jpg" alt="google classroom"></a>
             <div th:if="${isAdmin}" class="buttons">
                 <button id="toggleClassroom" class="boton1">Editar Enlace de Google classroom</button>
                 <br>
@@ -128,7 +129,7 @@
 
         <article class="moodle">
             <h1>Aulas virtuales-moodle (En Construccion)</h1>
-            <a th:href="@{${Moodle.getDescripcion()}}"><img src="https://dintev.univalle.edu.co/images/Rec-virtuales/02_Campus-Virtual.jpg" alt="Campus virtual"> </a>
+            <a th:href="@{${Moodle.getDescripcion()}}"><img src="/images/campus-virtual.jpg" alt="Campus virtual"> </a>
             <div th:if="${isAdmin}" class="buttons">
                 <button id="toggleMoodle" class="boton1">Editar Enlace de Moodle</button>
                 <br>
