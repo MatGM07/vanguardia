@@ -6,24 +6,23 @@
     <title>Resoluciones - Foro Escolar</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/circulares.css">
+    <link rel="stylesheet" href="/resoluciones.css">
 </head>
 
 <body>
 <div th:insert="fragments :: header"></div>
-<h1 class="circulares">Resoluciones</h1>
+<h1 class="resoluciones">Resoluciones</h1>
 
 <section class="container">
-<div class="container-circulares">
-    <div th:each="circular : ${circulares}" class="incidencia">
-        <h3><a th:if="${circular.descripcion != null}" th:href="${circular.descripcion}" th:text="${circular.titulo}">Título del Comunicado</a></h3>
-        <h3 th:if="${circular.descripcion == null}" th:text="${circular.titulo}">Título del Comunicado</h3>
+    <div th:each="Resolucion : ${resoluciones}" class="incidencia">
+        <h3><a th:if="${Resolucion.descripcion != null}" th:href="${Resolucion.descripcion}" th:text="${Resolucion.titulo}">Título del Comunicado</a></h3>
+        <h3 th:if="${Resolucion.descripcion == null}" th:text="${Resolucion.titulo}">Título del Comunicado</h3>
         <div th:if="${isAdmin}">
-            <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${circular.id} + ')'">Eliminar</button>
+            <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${Resolucion.id} + ')'">Eliminar</button>
         </div>
 
-        <div class="images-container" th:if="${circular.imagenes != null}">
-            <div th:each="imagen : ${circular.imagenes}">
+        <div class="images-container" th:if="${Resolucion.imagenes != null}">
+            <div th:each="imagen : ${Resolucion.imagenes}">
                 <!-- Contenedor para cada archivo -->
                 <div class="file-viewer">
                     <!-- Verificar si el archivo es una imagen o un PDF -->
@@ -44,7 +43,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <!-- Modal para mostrar la imagen en tamaño completo -->
 <div id="imageModal" class="modal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">&times;</span>

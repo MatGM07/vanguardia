@@ -6,13 +6,10 @@ import com.software2.colegio.services.DocenteService;
 import com.software2.colegio.services.HoraLibreService;
 import com.software2.colegio.services.SeccionService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
@@ -178,16 +175,16 @@ public class VistaController {
         return"administrativo/comunicados";
     }
 
-    @GetMapping("/circulares")
-    public String circulares(Model model, HttpSession session){
-        List<Contenido> circulares = contenidoService.findBySeccionNombre("Circulares");
-        model.addAttribute("circulares", circulares);
+    @GetMapping("/resoluciones")
+    public String resoluciones(Model model, HttpSession session){
+        List<Contenido> resoluciones = contenidoService.findBySeccionNombre("Resoluciones");
+        model.addAttribute("resoluciones", resoluciones);
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
             model.addAttribute("isAdmin", isAdmin);
         }
-        return"administrativo/circulares";
+        return "administrativo/resoluciones";
     }
 
     @GetMapping("/rendicion")

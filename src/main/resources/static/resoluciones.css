@@ -2,7 +2,7 @@
     --azul-vanguardia: #4f92d5;
     --azul-bandera: rgb(40, 100, 169);
 }
-.circulares{ /*h1*/
+.resoluciones{ /*h1*/
     /* font-family: 'Dancing Script';   */
     font-size: 2.5em;
     margin: 40px 0 0 0;
@@ -13,16 +13,11 @@
     margin: auto;
 }
 
-.container-circulares {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-}
 .incidencia {
-    border: 1px solid #000000;
+    border: 1px solid #ccc;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .images-container {
     margin-top: 10px;
@@ -109,7 +104,7 @@
 
 
 @media (max-width:700px) {
-    .container-circulares {
+    .container-resoluciones {
         flex-wrap: wrap;
     }
 }

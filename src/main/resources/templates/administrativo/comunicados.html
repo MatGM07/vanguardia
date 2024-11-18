@@ -7,91 +7,77 @@
     <link rel="stylesheet" href="/comunicados.css">
     <link rel="stylesheet" href="/style.css">
     <title>Comunicados - Foro Escolar</title>
-
-    <style>
-        .incidencia {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .images-container {
-            margin-top: 10px;
-        }
-        .images-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .images-container img:hover {
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
 <h1 class="circulares">Comunicados</h1>
-<div class="container">
+<main class="container">
 
-    <!-- Sección para mostrar los comunicados actuales -->
-    <div id="current-issues">
-        <h2>Incidencias actuales</h2>
-        <div th:each="comunicado : ${comunicados}" class="incidencia">
-            <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3>
-            <p th:text="${comunicado.descripcion}">Texto del Comunicado</p>
+    <section id="current-issues">
+        <article th:each="comunicado : ${comunicados}" class="incidencia">
 
-            <div th:if="${isAdmin}">
-                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
-            </div>
+            <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3><br>
+            <p th:text="${comunicado.descripcion}">Texto del Comunicado</p><br>
 
-
-            <!-- Sección para mostrar imágenes relacionadas con el comunicado -->
             <div class="images-container" th:if="${comunicado.imagenes != null}">
                 <h4>Imágenes adjuntas:</h4>
                 <div th:each="imagen : ${comunicado.imagenes}">
+                    <br>
                     <img th:src="@{${imagen.direccion}}"
                          th:alt="${imagen.titulo}"
                          onclick="openModal(this.src)">
                 </div>
             </div>
 
+            <div th:if="${isAdmin}">
+                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
+            </div><br>
             <hr>
-        </div>
-    </div>
+        </article>
+    </section>
 
-    <!-- Formulario para agregar un nuevo comunicado -->
-    <div class="form-container">
-        <div th:if="${isAdmin}">
+    <section class="form-container" th:if="${isAdmin}">
             <h2>Agregar nuevo comunicado</h2>
             <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
                 <label for="titulo">Título:</label>
                 <input type="text" id="titulo" name="titulo" required>
-
+                <br><br>
                 <label for="texto">Texto:</label>
                 <textarea id="texto" name="texto" rows="4" required></textarea>
-
+                <br><br>
                 <label for="archivo">Adjuntar archivos (opcional):</label>
-                <input type="file" id="archivo" name="archivo" multiple>
-
+                <label for="archivo" class="custom-file-upload">
+                    Seleccionar Archivos
+                </label>
+                <input type="file" id="archivo" name="archivo" multiple onchange="updateFileList()">
+                <span id="file-list"></span>
+                <br><br>
                 <input type="hidden" name="seccionid" id="seccionid" value="6">
-
-                <button type="submit" id="guardar">Enviar Comunicado</button>
+                <br><br>
+                <button type="submit" id="guardar" class="btn-save">Enviar Comunicado</button>
             </form>
-        </div>
-    </div>
-</div>
+
+    </section>
+</main>
 
 <!-- Modal para mostrar la imagen en tamaño completo -->
-<div id="imageModal" class="modal" onclick="closeModal()">
+<section id="imageModal" class="modal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage">
-</div>
+</section>
 
 <script>
+
+    function updateFileList() {
+        const input = document.getElementById('archivo');
+        const fileList = document.getElementById('file-list');
+
+        if (input.files.length === 0) {
+            fileList.textContent = "No se han seleccionado archivos.";
+        } else {
+            fileList.textContent = `Archivos seleccionados: ${input.files.length}`;
+        }
+    }
 
     function deleteIncidencia(id) {
         const longId = BigInt(id);
