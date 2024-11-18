@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/contrataciones.css">
     <title>Title</title>
     <script>
-
-
         function eliminarAño(año) {
 
             const url = `/api/seccion/21/${año}/e`;
@@ -71,22 +75,27 @@
     </script>
 </head>
 <body>
-<div th:if="${años != null and !#lists.isEmpty(años)}" >
-    <div th:each="año : ${años}" th:if="${año != null and !año.isEmpty()}">
-        <p>
-            <a th:href="@{/content/contratacionanual/{año}(año=${año})}" th:text="${año}"></a>
-        <div th:if="${isAdmin}">
-            <button type="button" class="btn-eliminar" th:data-año="${año}">Eliminar Año</button>
-        </div>
-        </p>
-    </div>
+<div th:insert="fragments :: header"></div>
+<h1 class="titulo-contrataciones">Contarataciones</h1>
 
+<div class="flex-container" th:if="${años != null and !#lists.isEmpty(años)}" >
+    <section class="container-years" th:each="año : ${años}" th:if="${año != null and !año.isEmpty()}">
+        <div class="years">
+            <p>
+                <a th:href="@{/content/contratacionanual/{año}(año=${año})}" th:text="${año}"></a>
+            </p>
+            <div th:if="${isAdmin}">
+                <button id="delete" type="button" class="btn-eliminar" th:data-año="${año}">Eliminar Año</button>
+            </div>
+        </div>
+    </section>
 </div>
-<div th:if="${isAdmin}">
+
+
+<div class="flex-container" th:if="${isAdmin}">
     <input type="text" id="nuevoAño" name="nuevoAño">
     <button type="button" class="btn-add">Agregar Año</button>
 </div>
-
 
 <script>
 
