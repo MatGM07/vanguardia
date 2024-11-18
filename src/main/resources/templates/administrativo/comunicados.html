@@ -10,15 +10,22 @@
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
-<h1 class="circulares">Comunicados</h1>
-<main class="container">
+<h1 class="titulo-circulares">Comunicados</h1>
+<h2>Incidencias actuales</h2>
+<!-- <div class="container"> -->
 
-    <section id="current-issues">
-        <article th:each="comunicado : ${comunicados}" class="incidencia">
+    <!-- Sección para mostrar los comunicados actuales -->
+    <div class="container">
+        <div th:each="comunicado : ${comunicados}" class="incidencia">
+            <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3>
+            <p th:text="${comunicado.descripcion}">Texto del Comunicado</p>
 
-            <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3><br>
-            <p th:text="${comunicado.descripcion}">Texto del Comunicado</p><br>
+            <div th:if="${isAdmin}">
+                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
+            </div>
 
+
+            <!-- Sección para mostrar imágenes relacionadas con el comunicado -->
             <div class="images-container" th:if="${comunicado.imagenes != null}">
                 <h4>Imágenes adjuntas:</h4>
                 <div th:each="imagen : ${comunicado.imagenes}">
@@ -36,7 +43,9 @@
         </article>
     </section>
 
-    <section class="form-container" th:if="${isAdmin}">
+    <!-- Formulario para agregar un nuevo comunicado -->
+    <div class="container">
+        <div th:if="${isAdmin}">
             <h2>Agregar nuevo comunicado</h2>
             <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
                 <label for="titulo">Título:</label>
@@ -56,9 +65,9 @@
                 <br><br>
                 <button type="submit" id="guardar" class="btn-save">Enviar Comunicado</button>
             </form>
-
-    </section>
-</main>
+        </div>
+    </div>
+<!-- </div> -->
 
 <!-- Modal para mostrar la imagen en tamaño completo -->
 <section id="imageModal" class="modal" onclick="closeModal()">

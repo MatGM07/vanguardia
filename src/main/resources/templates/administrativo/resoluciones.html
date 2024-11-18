@@ -11,12 +11,13 @@
 
 <body>
 <div th:insert="fragments :: header"></div>
-<h1 class="resoluciones">Resoluciones</h1>
+<h1 class="titulo-circulares">Resoluciones</h1>
 
-<section class="container">
-    <div th:each="Resolucion : ${resoluciones}" class="incidencia">
-        <h3><a th:if="${Resolucion.descripcion != null}" th:href="${Resolucion.descripcion}" th:text="${Resolucion.titulo}">Título del Comunicado</a></h3>
-        <h3 th:if="${Resolucion.descripcion == null}" th:text="${Resolucion.titulo}">Título del Comunicado</h3>
+<!-- <section class="container"> -->
+<div class="container">
+    <div th:each="circular : ${circulares}" class="incidencia">
+        <h3><a th:if="${circular.descripcion != null}" th:href="${circular.descripcion}" th:text="${circular.titulo}">Título del Comunicado</a></h3>
+        <h3 th:if="${circular.descripcion == null}" th:text="${circular.titulo}">Título del Comunicado</h3>
         <div th:if="${isAdmin}">
             <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${Resolucion.id} + ')'">Eliminar</button>
         </div>
@@ -51,7 +52,7 @@
 </div>
 
 <!-- Formulario para agregar un nuevo comunicado -->
-<div class="form-container">
+<div class="container">
     <div th:if="${isAdmin}">
         <h2>Agregar nuevo comunicado</h2>
         <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
