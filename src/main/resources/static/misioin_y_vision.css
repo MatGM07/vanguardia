@@ -3,8 +3,9 @@
     width: 100%;
     justify-content: center;
     background-image: url("images/Fondo.jpg");
-    background-size:100vw;
-    
+    background-repeat:3;
+    background-position: center;
+    height: calc(100vh - 128px);
 }
 
 

@@ -1,6 +1,6 @@
 :root {
     --azul-vanguardia: #4f92d5;
-    --azul-bandera: rgb(38, 72, 113);
+    --azul-bandera: rgb(40, 100, 169);
 }
 a {
     display: flex;
@@ -129,7 +129,7 @@ header .navbar ul li:hover > ul {
 }
 
 .boton1 {
-    background-color: #1883e7;
+    background-color: var(--azul-bandera);
     color: white;
     padding: 15px 30px;
     border: none;
@@ -177,6 +177,7 @@ header .navbar ul li:hover > ul {
 textarea.textarea1 {
     text-transform: none;
     display: none;
+    margin: 40px 0 0 0;
     width: 100%;
     height: 150px;
     padding: 10px;
@@ -197,7 +198,7 @@ textarea.textarea1:focus {
 }
 
 .boton2 {
-    background-color: #1883e7;
+    background-color: var(--azul-bandera);
     color: white;
     padding: 15px 30px;
     border: none;
@@ -242,58 +243,98 @@ textarea.textarea1:focus {
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+
+.main-pei {
+    display: flex;
+    justify-content: center;
+}
+
+.main-pei hr {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.main-pei h2 {
+    text-align: center;
+    font-size: 2em;
+    font-family: 'Poppins';
+    margin: 12px  32px 0 32px;
+}
+
 .pei-container {
-    width: 80%;
+    width: 90%;
     max-width: 900px;
     margin: 50px auto;
     padding: 20px;
     background-image: url("/images/principal.png");
     background-size: cover;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .pei-container h1 {
     text-align: center;
-    font-size: 48px;
+    font-size: 44px;
     color: #1883e7;
-    margin-bottom: 20px;
+    margin-bottom: 32px;
+    padding: 12px;
+    background-color: rgba(255,255,255,0.3);
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
 }
 
 .pei-description {
     line-height: 1.8;
     font-size: 18px;
     color: #555;
-    text-align: justify;
+    text-align: left;
     margin-bottom: 20px;
-    padding: 15px;
+    padding: 30px;
     background-color: #f9f9f9;
-    border-left: 5px solid #1883e7;
+    /* border-left: 5px solid #1883e7; */
     border-radius: 5px;
 }
 
+.pei-pdf {
+    display: flex;
+    justify-content: center;
+}
+
+.pei-pdf iframe {
+    width: 90%;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
 
 p {
     margin: 0;
 }
 
 .manual{
-    background-image: url("/images/Manual.jpg");
+    display: flex;
+    justify-content: center;
+    background-image: url("/images/Manual.jpg") ;
+    background-repeat: no-repeat;
     background-size: cover;
-
+    background-position: center;
+    /* width: 85%; */
+    /* height: 610px; */
+    margin-left: auto;
+    margin-right: auto;
 }
 
+
 .Manual-container{
-    width: 80%;
+    width: 90%;
     max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
+    margin: 80px auto;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.4);
 }
 
 .manual2{
-    width: 50%; /* o cualquier ancho deseado */
+    width: 100%; /* o cualquier ancho deseado */
     margin: 0 auto; /* centrar horizontalmente */
     text-align: center;
     background-color: transparent;
@@ -301,11 +342,16 @@ p {
 
 .supertitle{
     text-align: center;
-    font-size: 250%;
-    padding: 100px;
+    font-size: 230%;
+    padding: 70px;
+}
+
+.supertitle h1 {
+    color: #1883e7;
 }
 
 .campus-virtual {
+    margin: 40px 0 0 0;
     display: flex;
     gap: 30px;
     justify-content: space-between;
@@ -319,6 +365,7 @@ p {
 
 .classroom, .moodle {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     width: 300px;
     box-sizing: border-box;
@@ -328,20 +375,29 @@ p {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.3);
     align-items: center;
 }
 
 .classroom h1, .moodle h1 {
     margin: 24px 0 24px 0;
-    font-size: 2em;
+    font-size: 1.8em;
     text-align: center;
+}
+
+.titulo-plataforma {
+    width: 80%;
+    margin: 0 auto;
+}
+.titulo-plataforma h1 {
+    margin: 40px 0 0 0;
+    font-size: 2.5em;
 }
 
 .containerPlataformas {
     display: flex;
     justify-content: center;
-
+    align-items: center;
 }
 
 .buttons{
@@ -389,7 +445,7 @@ p {
     border-radius: 4px;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1260px) {
     .title {
         display: none;
     }
@@ -412,6 +468,11 @@ p {
     }
     .btn-archivo {
         width: 90%;
+    }
+
+    .campus-virtual {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 

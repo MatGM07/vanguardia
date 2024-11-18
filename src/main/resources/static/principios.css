@@ -1,9 +1,18 @@
+
+.page-title {
+    width: 80%;
+    margin: 0 auto;
+}
+.page-title h1 {
+    margin: 40px 0 0 0;
+    font-size: 2.5em;
+}
+
 .container {
     display: flex;
     justify-content: center;
     width: 100%;
 }
-
 .principios-valores {
     display: flex;
     justify-content: space-between;
