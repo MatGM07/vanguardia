@@ -2,10 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/campesino.css">
+    <title>Mercado campesino</title>
 </head>
 <body>
-    <h1>poner aca varias imagenes de mercados campesinos (si no se, asi dijo agudelo)</h1>
+<div th:insert="fragments :: header"></div>
+<h1 class="titulo-mercado">Mercado campesino</h1>
+
+<div class="container">
+    <section class="image-container">
+            <img src="/images/mercado-campesino.jpg" alt="Puesto de mercado campesino">        
+            <img src="/images/mercado.jpg" alt="Puesto de mercado campesino">
+            <img src="/images/mercado-2.jpg" alt="Puesto de mercado campesino">
+            <img src="/images/mercado-3.jpg" alt="Puesto de mercado campesino">
+            <img src="/images/mercado-4.jpg" alt="Puesto de mercado campesino">
+            <img src="/images/mercado-5.jpeg" alt="Puesto de mercado campesino">
+        
+    </section>
+</div>
 
 </body>
 </html>
