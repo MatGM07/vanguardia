@@ -391,4 +391,17 @@ public class VistaController {
     public String realidadAumentada(){
         return "ra";
     }
+
+    @GetMapping("/biblioteca")
+    public String bibliotecaVirtual(Model model, HttpSession session){
+        List<Contenido> bibliotecas = contenidoService.findBySeccionNombre("Bibliotecas");
+        model.addAttribute("bibliotecas", bibliotecas);
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+
+        return "biblioteca";
+    }
 }
