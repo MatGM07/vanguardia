@@ -11,134 +11,135 @@
 
 <body>
 <div th:insert="fragments :: header"></div>
-<h1 class="resoluciones">Resoluciones</h1>
+<h1 class="titulo-circulares">Resoluciones</h1>
 
-<section class="container">
-    <div th:each="Resolucion : ${resoluciones}" class="incidencia">
-        <h3><a th:if="${Resolucion.descripcion != null}" th:href="${Resolucion.descripcion}" th:text="${Resolucion.titulo}">Título del Comunicado</a></h3>
-        <h3 th:if="${Resolucion.descripcion == null}" th:text="${Resolucion.titulo}">Título del Comunicado</h3>
-        <div th:if="${isAdmin}">
-            <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${Resolucion.id} + ')'">Eliminar</button>
-        </div>
-
-        <div class="images-container" th:if="${Resolucion.imagenes != null}">
-            <div th:each="imagen : ${Resolucion.imagenes}">
-                <!-- Contenedor para cada archivo -->
-                <div class="file-viewer">
-                    <!-- Verificar si el archivo es una imagen o un PDF -->
-                    <div th:if="${imagen.direccion.endsWith('.pdf')}">
-                        <!-- Mostrar PDF como un enlace para abrirlo en una nueva ventana o incrustado -->
-                        <img src="/uploads/pdf.png" class="pdf-thumbnail" alt="PDF preview"
-                             th:data-file-path="@{{image}(image=${imagen.direccion})}"
-                             onclick="openPdf(this.getAttribute('data-file-path'))">
-                    </div>
-                    <div th:if="${imagen.direccion.endsWith('.jpg') or imagen.direccion.endsWith('.jpeg') or imagen.direccion.endsWith('.png') or imagen.direccion.endsWith('.gif')}">
-                        <!-- Mostrar imagen -->
-                        <img th:src="@{{image}(image=${imagen.direccion})}"
-                             th:data-file-path="${imagen.direccion}"
-                             alt="Imagen adjunta"
-                             onclick="openModal(this.src)">
+<!-- <section class="container"> -->
+    <section class="container">
+        <div th:each="Resolucion : ${resoluciones}" class="incidencia">
+            <h3><a th:if="${Resolucion.descripcion != null}" th:href="${Resolucion.descripcion}" th:text="${Resolucion.titulo}">Título del Comunicado</a></h3>
+            <h3 th:if="${Resolucion.descripcion == null}" th:text="${Resolucion.titulo}">Título del Comunicado</h3>
+            <div th:if="${isAdmin}">
+                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${Resolucion.id} + ')'">Eliminar</button>
+            </div>
+    
+            <div class="images-container" th:if="${Resolucion.imagenes != null}">
+                <div th:each="imagen : ${Resolucion.imagenes}">
+                    <!-- Contenedor para cada archivo -->
+                    <div class="file-viewer">
+                        <!-- Verificar si el archivo es una imagen o un PDF -->
+                        <div th:if="${imagen.direccion.endsWith('.pdf')}">
+                            <!-- Mostrar PDF como un enlace para abrirlo en una nueva ventana o incrustado -->
+                            <img src="/uploads/pdf.png" class="pdf-thumbnail" alt="PDF preview"
+                                 th:data-file-path="@{{image}(image=${imagen.direccion})}"
+                                 onclick="openPdf(this.getAttribute('data-file-path'))">
+                        </div>
+                        <div th:if="${imagen.direccion.endsWith('.jpg') or imagen.direccion.endsWith('.jpeg') or imagen.direccion.endsWith('.png') or imagen.direccion.endsWith('.gif')}">
+                            <!-- Mostrar imagen -->
+                            <img th:src="@{{image}(image=${imagen.direccion})}"
+                                 th:data-file-path="${imagen.direccion}"
+                                 alt="Imagen adjunta"
+                                 onclick="openModal(this.src)">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    
+    <!-- Modal para mostrar la imagen en tamaño completo -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
-
-<!-- Modal para mostrar la imagen en tamaño completo -->
-<div id="imageModal" class="modal" onclick="closeModal()">
-    <span class="modal-close" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
-
-<!-- Formulario para agregar un nuevo comunicado -->
-<div class="form-container">
-    <div th:if="${isAdmin}">
-        <h2>Agregar nuevo comunicado</h2>
-        <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" required>
-
-            <p>Agregar Enlace Externo</p>
-            <label for="texto">Texto:</label>
-            <textarea id="texto" name="texto" rows="4" placeholder="Enlace Externo"></textarea>
-
-            <p>Agregar Archivo Local</p>
-            <label for="archivo">Adjuntar archivos (opcional):</label>
-            <input type="file" id="archivo" name="archivo" multiple>
-
-            <input type="hidden" name="seccionid" id="seccionid" value="7">
-
-            <button type="submit" id="guardar">Enviar Comunicado</button>
-        </form>
+    
+    <!-- Formulario para agregar un nuevo comunicado -->
+    <div class="container">
+        <div th:if="${isAdmin}">
+            <h2>Agregar nuevo comunicado</h2>
+            <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+    
+                <p>Agregar Enlace Externo</p>
+                <label for="texto">Texto:</label>
+                <textarea id="texto" name="texto" rows="4" placeholder="Enlace Externo"></textarea>
+    
+                <p>Agregar Archivo Local</p>
+                <label for="archivo">Adjuntar archivos (opcional):</label>
+                <input type="file" id="archivo" name="archivo" multiple>
+    
+                <input type="hidden" name="seccionid" id="seccionid" value="7">
+    
+                <button type="submit" id="guardar">Enviar Comunicado</button>
+            </form>
+        </div>
     </div>
-</div>
-</section>
-
-<script>
-
-    function deleteIncidencia(id) {
-        const longId = BigInt(id);
-
-        if (confirm("¿Estás seguro de que deseas eliminar esta incidencia?")) {
-            fetch(`/api/contenido/${longId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert("Incidencia eliminada correctamente");
-                        // Recargar la página para actualizar la lista
-                        location.reload();
-                    } else {
-                        alert("Error al eliminar la incidencia");
+    </section>
+    
+    <script>
+    
+        function deleteIncidencia(id) {
+            const longId = BigInt(id);
+    
+            if (confirm("¿Estás seguro de que deseas eliminar esta incidencia?")) {
+                fetch(`/api/contenido/${longId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
                 })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Hubo un problema al eliminar la incidencia");
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Incidencia eliminada correctamente");
+                            // Recargar la página para actualizar la lista
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar la incidencia");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Hubo un problema al eliminar la incidencia");
+                    });
+            }
         }
-    }
-
-    function openModal(src) {
-        var modal = document.getElementById("imageModal");
-        var modalImage = document.getElementById("modalImage");
-
-        modal.style.display = "flex";
-        modalImage.src = src;
-    }
-
-    function closeModal() {
-        var modal = document.getElementById("imageModal");
-        modal.style.display = "none";
-    }
-
-    function openPdf(pdfPath) {
-        window.open(pdfPath, '_blank');
-    }
-
-    // Lógica para habilitar/deshabilitar campos en el formulario según se seleccione el tipo de archivo
-    const enlaceExterno = document.getElementById('texto');
-    const archivo = document.getElementById('archivo');
-
-    enlaceExterno.addEventListener('input', () => {
-        if (enlaceExterno.value.trim()) {
-            archivo.disabled = true;
-        } else {
-            archivo.disabled = false;
+    
+        function openModal(src) {
+            var modal = document.getElementById("imageModal");
+            var modalImage = document.getElementById("modalImage");
+    
+            modal.style.display = "flex";
+            modalImage.src = src;
         }
-    });
-
-    archivo.addEventListener('change', () => {
-        if (archivo.files.length > 0) {
-            enlaceExterno.disabled = true;
-        } else {
-            enlaceExterno.disabled = false;
+    
+        function closeModal() {
+            var modal = document.getElementById("imageModal");
+            modal.style.display = "none";
         }
-    });
-</script>
+    
+        function openPdf(pdfPath) {
+            window.open(pdfPath, '_blank');
+        }
+    
+        // Lógica para habilitar/deshabilitar campos en el formulario según se seleccione el tipo de archivo
+        const enlaceExterno = document.getElementById('texto');
+        const archivo = document.getElementById('archivo');
+    
+        enlaceExterno.addEventListener('input', () => {
+            if (enlaceExterno.value.trim()) {
+                archivo.disabled = true;
+            } else {
+                archivo.disabled = false;
+            }
+        });
+    
+        archivo.addEventListener('change', () => {
+            if (archivo.files.length > 0) {
+                enlaceExterno.disabled = true;
+            } else {
+                enlaceExterno.disabled = false;
+            }
+        });
+    </script>
 
 </body>
 </html>
