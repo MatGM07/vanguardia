@@ -29,19 +29,15 @@
             <div class="images-container" th:if="${comunicado.imagenes != null}">
                 <h4>Imágenes adjuntas:</h4>
                 <div th:each="imagen : ${comunicado.imagenes}">
-                    <br>
                     <img th:src="@{${imagen.direccion}}"
                          th:alt="${imagen.titulo}"
                          onclick="openModal(this.src)">
                 </div>
             </div>
 
-            <div th:if="${isAdmin}">
-                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
-            </div><br>
             <hr>
-        </article>
-    </section>
+        </div>
+    </div>
 
     <!-- Formulario para agregar un nuevo comunicado -->
     <div class="container">
