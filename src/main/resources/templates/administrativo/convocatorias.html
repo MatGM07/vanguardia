@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/convocatorias.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Convocatorias</title>
     <script>
 
 
@@ -71,18 +75,23 @@
     </script>
 </head>
 <body>
-<div th:if="${!#lists.isEmpty(años)}">
-    <div th:if="${año != null and !año.isEmpty()}" th:each="año : ${años}">
-        <p>
-            <a th:href="@{/content/convocatoriaanual/{año}(año=${año})}" th:text="${año}"></a>
-        <div th:if="${isAdmin}">
-            <button type="button" class="btn-eliminar" th:data-año="${año}">Eliminar Año</button>
-        </div>
-        </p>
-    </div>
+<div th:insert="fragments :: header"></div>
+<h1 class="titulo-convocatorias">Convocatorias</h1>
 
+<div class="flex-container" th:if="${!#lists.isEmpty(años)}">
+    <section class="container-years" th:if="${año != null and !año.isEmpty()}" th:each="año : ${años}">
+        <div class="years">
+            <p>
+                <a th:href="@{/content/convocatoriaanual/{año}(año=${año})}" th:text="${año}"></a>
+            </p>
+            <div th:if="${isAdmin}">
+                <button type="button" class="btn-eliminar" th:data-año="${año}">Eliminar Año</button>
+            </div>
+        </div>
+    </section>
 </div>
-<div th:if="${isAdmin}">
+
+<div class="flex-container" th:if="${isAdmin}">
     <input type="text" id="nuevoAño" name="nuevoAño">
     <button type="button" class="btn-add">Agregar Año</button>
 </div>

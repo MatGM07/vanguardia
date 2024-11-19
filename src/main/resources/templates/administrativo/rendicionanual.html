@@ -2,62 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .incidencia {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .images-container {
-            margin-top: 10px;
-        }
-        .images-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .images-container img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            max-width: 80%;
-            max-height: 80%;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/rendicionanual.css">
+    <title>Rendicion anual</title>
     </style>
 </head>
 <body>
+<div th:insert="fragments :: header"></div>
+
+<h1 class="titulo-convocatorias">Rendiciones <span th:text="${año}"></span></h1>
 
 <div class="container">
-    <h1>Rendiciones <span th:text="${año}"></span></h1>
     <div th:each="contenido : ${contenidos}" class="incidencia">
         <h3><a th:if="${contenido.descripcion != null}" th:href="${contenido.descripcion}" th:text="${contenido.titulo}">Título del Comunicado</a></h3>
         <h3 th:if="${contenido.descripcion == null}" th:text="${contenido.titulo}">Título del Comunicado</h3>
@@ -70,7 +29,7 @@
                 <!-- Contenedor para cada archivo -->
                 <div class="file-viewer">
                     <!-- Verificar si el archivo es una imagen o un PDF -->
-                    <div th:if="${imagen.direccion.endsWith('.pdf')}">
+                    <div class="file-icon" th:if="${imagen.direccion.endsWith('.pdf')}">
                         <!-- Mostrar PDF como un enlace para abrirlo en una nueva ventana o incrustado -->
                         <img src="/uploads/pdf.png" class="pdf-thumbnail" alt="PDF preview"
                              th:data-file-path="@{{image}(image=${imagen.direccion})}"
@@ -96,7 +55,7 @@
 </div>
 
 <!-- Formulario para agregar un nuevo comunicado -->
-<div class="form-container">
+<div class="container">
     <div th:if="${isAdmin}">
         <h2>Agregar nuevo comunicado</h2>
         <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">

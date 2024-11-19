@@ -7,6 +7,9 @@ target/
 *.properties
 .xml
 
+*.pdf
+*.jpg
+
 ### STS ###
 .apt_generated
 .classpath
