@@ -18,7 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/content")
@@ -393,7 +398,7 @@ public class VistaController {
 
     @GetMapping("/aula")
     public String aula(Model model, HttpSession session){
-        List<Contenido> aula = contenidoService.findBySeccionNombre("Pedagogicos");
+        List<Seccion> aula = seccionService.findByDescripcion("Proyecto de Aula");
         model.addAttribute("aula", aula);
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
@@ -441,6 +446,11 @@ public class VistaController {
 
     @GetMapping("/comunidad")
     public String comunidad(Model model, HttpSession session) {
+        Optional<Seccion> seccionOptional = seccionService.findByNombre("Eventos");
+        List<Contenido> contenidos = contenidoService.findBySeccionNombre(seccionOptional.get().getNombre());
+        model.addAttribute("contenidos", contenidos);
+
+
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;

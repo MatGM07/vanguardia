@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/contrataciones.css">
+    <title>Eventos Importantes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333;
+        }
+
+        .event-list {
+            margin-bottom: 20px;
+        }
+
+        .event-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eaf1ff;
+            border-left: 5px solid #007bff;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .event-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .event-title {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .form-container {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="date"],
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="fragments :: header"></div>
+<div class="container">
+    <div class="header">
+        <h1>Eventos Importantes</h1>
+    </div>
+
+    <div class="event-list">
+        <div th:each="content : ${contenidos}" class="event-item">
+            <div class="event-details">
+                <span class="event-date" th:text="${content.descripcion}">2024-11-19</span>
+                <span class="event-title" th:text="${content.titulo}">Nombre del Evento</span>
+            </div>
+            <button class="delete-btn" th:onclick="'deleteEvent(' + ${content.id} + ')'">Eliminar</button>
+        </div>
+    </div>
+
+    <div class="form-container" th:if="${isAdmin}">
+        <h3>Crear Nuevo Evento</h3>
+        <form id="eventForm">
+            <label for="titulo">Título del Evento:</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Ingrese el título del evento" required>
+
+            <label for="texto">Fecha del Evento:</label>
+            <input type="date" id="texto" name="texto" required>
+
+            <input type="hidden" name="seccionid" id="seccionid" th:value="36">
+
+            <button type="submit">Agregar Evento</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function deleteEvent(eventId) {
+        if (confirm('¿Estás seguro de que deseas eliminar este evento?')) {
+            try {
+                const response = await fetch(`/api/contenido/${eventId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert('Evento eliminado con éxito.');
+                    window.location.reload(); // Recargar la página para reflejar los cambios
+                } else {
+                    alert('Error al eliminar el evento.');
+                }
+            } catch (error) {
+                console.error('Error al eliminar el evento:', error);
+                alert('Ocurrió un error al intentar eliminar el evento.');
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('eventForm');
+
+        const dateInput = document.getElementById('texto');
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const minDate = `${year}-${month}-${day}`;
+
+        dateInput.min = minDate;
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/api/contenido', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Evento agregado con éxito.');
+                    window.location.reload(); // Recargar la página para reflejar cambios
+                } else {
+                    alert('Error al agregar el evento.');
+                }
+            } catch (error) {
+                console.error('Error en el envío:', error);
+                alert('Ocurrió un error al agregar el evento.');
+            }
+        });
+    });
+</script>
+</body>
+</html>

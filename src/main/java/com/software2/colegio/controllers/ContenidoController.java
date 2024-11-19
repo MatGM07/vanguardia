@@ -56,7 +56,7 @@ public class ContenidoController {
     @PostMapping
     public ResponseEntity<String> createContenido(@RequestParam("titulo") String titulo, @RequestParam(value="texto",required = false) String descripcion, @RequestParam(value = "archivo",required = false) List<MultipartFile> archivos, @RequestParam("seccionid") Long seccionid,HttpSession session,
                                                   HttpServletRequest request){
-
+        System.out.println("jaiajiaj");
         Optional<Seccion> seccion = seccionService.findById(seccionid);
 
         Seccion seccionencontrada = seccion.get();

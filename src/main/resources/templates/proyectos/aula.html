@@ -30,7 +30,7 @@
 
 <div class="container">
     <h1>Proyectos de Aula</h1>
-    <div th:each="proyecto : ${proyectos}" class="incidencia">
+    <div th:each="proyecto : ${aula}" class="incidencia">
         <h3><a th:href="@{/content/proyectoindi/{id}(id=${proyecto.id})}" th:text="${proyecto.nombre}">>Título del Proyecto Pedagogico</a></h3>
         <div th:if="${isAdmin}">
             <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${proyecto.id} + ')'">Eliminar</button>
