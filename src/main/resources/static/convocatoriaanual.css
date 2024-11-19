@@ -19,6 +19,7 @@
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
+    background-color: rgb(236, 238, 245);;
     border: 2px solid #000000;
     width: 300px;
     background-color: rgb(247, 242, 255);

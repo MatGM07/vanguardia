@@ -359,7 +359,7 @@ public class VistaController {
 
     @GetMapping("/aula")
     public String aula(Model model, HttpSession session){
-        List<Contenido> aula = contenidoService.findBySeccionNombre("Pedagogicos");
+        List<Seccion> aula = seccionService.findByDescripcion("Proyecto de Aula");
         model.addAttribute("aula", aula);
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){

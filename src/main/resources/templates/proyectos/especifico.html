@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/convocatoriaanual.css">
     <title>Proyecto Pedagogico</title>
 
     <style>
@@ -57,9 +62,10 @@
     </style>
 </head>
 <body>
+<div th:insert="fragments :: header"></div>
+<h1 class="titulo-convocatorias" th:text="${seccion.nombre}">Nombre de Proyecto</h1>
 
 <div class="container">
-    <h1 th:text="${seccion.nombre}">Nombre de Proyecto</h1>
 
     <!-- Sección para mostrar los comunicados actuales -->
     <div id="current-issues">
@@ -88,7 +94,7 @@
     </div>
 
     <!-- Formulario para agregar un nuevo comunicado -->
-    <div class="form-container">
+    <div class="container">
         <div th:if="${isAdmin}">
             <h2>Agregar nuevo comunicado</h2>
             <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">

@@ -3,88 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/institucional.css">
     <title>Periodico Institucional</title>
-
-    <style>
-        .incidencia {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .images-container {
-            margin-top: 10px;
-        }
-        .images-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .images-container img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Estilos para el modal */
-        .modal {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            max-width: 80%;
-            max-height: 80%;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
+<div th:insert="fragments :: header"></div>
+<h1 class="titulo-periodico">Periodico Institucional <span th:text="${año}"></span></h1>
 
 <div class="container">
-    <h1>Periodico Institucional</h1>
-
     <!-- Sección para mostrar los contenidos actuales -->
-    <div id="current-issues">
-        <div th:each="contenido : ${contenidos}" class="incidencia">
-            <p th:text="${contenido.fecha_creacion}">Fecha</p>
-            <h3 th:text="${contenido.titulo}">Título del Comunicado</h3>
-            <p th:text="${contenido.descripcion}">Texto del Comunicado</p>
-
-            <div th:if="${isAdmin}">
-                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${contenido.id} + ')'">Eliminar</button>
-            </div>
-
-
-            <!-- Sección para mostrar imágenes relacionadas con el contenido -->
-            <div class="images-container" th:if="${contenido.imagenes != null}">
-                <h4>Imágenes adjuntas:</h4>
-                <div th:each="imagen : ${contenido.imagenes}">
-                    <img th:src="@{${imagen.direccion}}"
-                         th:alt="${imagen.titulo}"
-                         onclick="openModal(this.src)">
-                </div>
-            </div>
-
-            <hr>
+    
+    <div th:each="contenido : ${contenidos}" class="incidencia">
+        <p id="fecha" th:text="${contenido.fecha_creacion}">Fecha</p>
+        <h3 th:text="${contenido.titulo}">Título del Comunicado</h3>
+        <p th:text="${contenido.descripcion}">Texto del Comunicado</p>
+        <div th:if="${isAdmin}">
+            <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${contenido.id} + ')'">Eliminar</button>
         </div>
+        <!-- Sección para mostrar imágenes relacionadas con el contenido -->
+        <div class="images-container" th:if="${contenido.imagenes != null}">
+            <h4>Imágenes adjuntas:</h4>
+            <div th:each="imagen : ${contenido.imagenes}">
+                <img th:src="@{${imagen.direccion}}"
+                     th:alt="${imagen.titulo}"
+                     onclick="openModal(this.src)">
+            </div>
+        </div>
+        <hr>
     </div>
 
     <!-- Formulario para agregar un nuevo contenido -->

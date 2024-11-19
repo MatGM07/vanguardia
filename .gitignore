@@ -8,7 +8,6 @@ target/
 .xml
 
 *.pdf
-*.jpg
 
 ### STS ###
 .apt_generated

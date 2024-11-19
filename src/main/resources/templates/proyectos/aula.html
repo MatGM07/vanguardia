@@ -2,46 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .incidencia {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .images-container img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .images-container img:hover {
-            transform: scale(1.05);
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/aula.css">
+    <title>Aula</title>
 
-
-    </style>
 </head>
 <body>
+<div th:insert="fragments :: header"></div>
+
+<h1 class="titulo-aula">Proyectos de Aula</h1>
 
 <div class="container">
-    <h1>Proyectos de Aula</h1>
-    <div th:each="proyecto : ${proyectos}" class="incidencia">
+    <div th:each="proyecto : ${aula}" class="incidencia">
         <h3><a th:href="@{/content/proyectoindi/{id}(id=${proyecto.id})}" th:text="${proyecto.nombre}">>Título del Proyecto Pedagogico</a></h3>
         <div th:if="${isAdmin}">
             <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${proyecto.id} + ')'">Eliminar</button>
         </div>
-
     </div>
 </div>
 
 
 <!-- Formulario para agregar un nuevo comunicado -->
-<div class="form-container">
+<div class="container">
     <div th:if="${isAdmin}">
         <h2>Agregar nuevo fragmento de proyecto</h2>
         <form th:action="@{/api/seccion}" method="post" enctype="multipart/form-data">
