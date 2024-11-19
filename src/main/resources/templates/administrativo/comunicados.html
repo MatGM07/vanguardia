@@ -6,25 +6,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/comunicados.css">
     <link rel="stylesheet" href="/style.css">
-    <title>Comunicados - Foro Escolar</title>
+    <title>Comunicados</title>
 </head>
 <body>
 <div th:insert="fragments :: header"></div>
 <h1 class="titulo-circulares">Comunicados</h1>
-<h2>Incidencias actuales</h2>
+
 <!-- <div class="container"> -->
 
     <!-- Sección para mostrar los comunicados actuales -->
     <div class="container">
         <div th:each="comunicado : ${comunicados}" class="incidencia">
             <h3 th:text="${comunicado.titulo}">Título del Comunicado</h3>
+            <br>
             <p th:text="${comunicado.descripcion}">Texto del Comunicado</p>
-
-            <div th:if="${isAdmin}">
-                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
-            </div>
-
-
+            <br>
             <!-- Sección para mostrar imágenes relacionadas con el comunicado -->
             <div class="images-container" th:if="${comunicado.imagenes != null}">
                 <h4>Imágenes adjuntas:</h4>
@@ -34,6 +30,13 @@
                          onclick="openModal(this.src)">
                 </div>
             </div>
+
+            <br>
+            <div th:if="${isAdmin}">
+                <button class="delete-btn" th:onclick="'deleteIncidencia(' + ${comunicado.id} + ')'">Eliminar</button>
+            </div>
+            <br>
+
 
             <hr>
         </div>
@@ -46,26 +49,43 @@
             <form th:action="@{/api/contenido}" method="post" enctype="multipart/form-data">
                 <label for="titulo">Título:</label>
                 <input type="text" id="titulo" name="titulo" required>
-                <br><br>
+
                 <label for="texto">Texto:</label>
                 <textarea id="texto" name="texto" rows="4" required></textarea>
-                <br><br>
+
                 <label for="archivo">Adjuntar archivos (opcional):</label>
                 <label for="archivo" class="custom-file-upload">
                     Seleccionar Archivos
                 </label>
                 <input type="file" id="archivo" name="archivo" multiple onchange="updateFileList()">
                 <span id="file-list"></span>
-                <br><br>
+
                 <input type="hidden" name="seccionid" id="seccionid" value="6">
-                <br><br>
+
                 <button type="submit" id="guardar" class="btn-save">Enviar Comunicado</button>
             </form>
         </div>
     </div>
-<!-- </div> -->
 
-<!-- Modal para mostrar la imagen en tamaño completo -->
+<section class="pagination">
+    <button th:disabled="${currentPage == 0}"
+            th:onclick="'location.href=\'?page=' + (${currentPage} - 1) + '&size=5\''">
+        &laquo; Anterior
+    </button>
+
+    <span th:each="page : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:classappend="${page == currentPage} ? 'active'"
+           th:href="@{'/content/comunicados'(page=${page}, size=5)}"
+           th:text="${page + 1}">1</a>
+    </span>
+
+    <button th:disabled="${currentPage + 1 == totalPages}"
+            th:onclick="'location.href=\'?page=' + (${currentPage} + 1) + '&size=5\''">
+        Siguiente &raquo;
+    </button>
+</section>
+
+
 <section id="imageModal" class="modal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage">

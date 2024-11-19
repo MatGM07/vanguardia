@@ -64,6 +64,7 @@
 <script th:inline="javascript">
     // Convierte la lista de horas en un objeto de JavaScript accesible
     const horasLibres = /*[[${horas}]]*/ [];
+    console.log(horasLibres);
 
     const idDocente =  /*[[${docente}]]*/ 0;
 
@@ -77,6 +78,12 @@
 </script>
 
 <script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const datePicker = document.getElementById('date-picker');
+        const today = new Date().toISOString().split('T')[0]; // Obtiene la fecha actual en formato YYYY-MM-DD
+        datePicker.setAttribute('min', today); // Establece la fecha mínima en el campo de fecha
+    });
     // Función para filtrar las horas según el día seleccionado
     function filterHours() {
         const selectedDate = new Date(document.getElementById('date-picker').value + 'T00:00:00'); // Se asegura de que la hora sea a medianoche

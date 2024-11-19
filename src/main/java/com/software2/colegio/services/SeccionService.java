@@ -5,6 +5,8 @@ import com.software2.colegio.models.Seccion;
 
 import com.software2.colegio.repositories.SeccionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public class SeccionService {
     public Optional<Seccion> findByNombre(String nombre) {
         return seccionRepository.findByNombre(nombre);
     }
+
+
     public List<Seccion> findByDescripcion(String descripcion) {
         return seccionRepository.findByDescripcion(descripcion);
     }

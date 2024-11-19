@@ -6,11 +6,17 @@ import com.software2.colegio.services.DocenteService;
 import com.software2.colegio.services.HoraLibreService;
 import com.software2.colegio.services.SeccionService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -70,7 +76,10 @@ public class VistaController {
     }
 
     @GetMapping("/citas")
-    public String citas(){
+    public String citas(Model model){
+        List<Docente> docentes = docenteService.findAll();
+        model.addAttribute("docentes",docentes);
+
         return "citas/agendar";
     }
 
@@ -78,6 +87,12 @@ public class VistaController {
     public String citaExacta(Model model, @PathVariable Long id){
         Optional<Docente> docente = docenteService.findById(id);
         List<HoraLibre> horas = horaLibreService.findByDocente(id);
+        List<String> diaSemana = new ArrayList<>();
+        for (HoraLibre hora : horas){
+            System.out.println("horas");
+            System.out.println(hora.getHoraInicio());
+        }
+
         model.addAttribute("docente", docente.get().getId());
         model.addAttribute("horas", horas);
 
@@ -164,21 +179,28 @@ public class VistaController {
     }
 
     @GetMapping("/comunicados")
-    public String comunicados(Model model, HttpSession session){
-        List<Contenido> comunicados = contenidoService.findBySeccionNombre("Comunicados");
-        model.addAttribute("comunicados", comunicados);
+    public String comunicados(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model, HttpSession session){
+        Page<Contenido> comunicadosPage = contenidoService.findPagedBySeccionNombre("Comunicados", PageRequest.of(page, size));
+
+        model.addAttribute("comunicados", comunicadosPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", comunicadosPage.getTotalPages());
+
         String role = (String) session.getAttribute("role");
-        if (role == "ROLE_ADMIN"){
-            boolean isAdmin = true;
-            model.addAttribute("isAdmin", isAdmin);
+        if ("ROLE_ADMIN".equals(role)) {
+            model.addAttribute("isAdmin", true);
         }
-        return"administrativo/comunicados";
+        return "administrativo/comunicados";
     }
 
     @GetMapping("/resoluciones")
-    public String resoluciones(Model model, HttpSession session){
-        List<Contenido> resoluciones = contenidoService.findBySeccionNombre("Resoluciones");
-        model.addAttribute("resoluciones", resoluciones);
+    public String resoluciones(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model, HttpSession session){
+        Page<Contenido> comunicadosPage = contenidoService.findPagedBySeccionNombre("Resoluciones", PageRequest.of(page, size));
+
+        model.addAttribute("resoluciones", comunicadosPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", comunicadosPage.getTotalPages());
+
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
@@ -268,40 +290,52 @@ public class VistaController {
     }
 
     @GetMapping("/contrataciones")
-    public String contrataciones(Model model, HttpSession session){
+    public String contrataciones(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model,
+            HttpSession session) {
         Optional<Seccion> listaAños = seccionService.findById(Long.valueOf(21));
 
-        String años = listaAños.get().getDescripcion();
+        String años = listaAños.map(Seccion::getDescripcion).orElse("");
 
         String[] elementos = años.split(",");
-
         List<String> listaDeAños = Arrays.asList(elementos);
 
-        List<Contenido> Contrataciones = contenidoService.findBySeccionNombre("Contrataciones");
-        if (años!=""){
-            model.addAttribute("años", listaDeAños);
-        }else {
-            model.addAttribute("años", new ArrayList<>());
-        }
+        // Paginación manual
+        int totalAnios = listaDeAños.size();
+        int totalPages = (int) Math.ceil((double) totalAnios / size);
+
+        int fromIndex = Math.min(page * size, totalAnios);
+        int toIndex = Math.min(fromIndex + size, totalAnios);
+
+        List<String> pagedAnios = listaDeAños.subList(fromIndex, toIndex);
+
+        model.addAttribute("años", pagedAnios);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
             boolean isAdmin = true;
             model.addAttribute("isAdmin", isAdmin);
         }
-        return"administrativo/contrataciones";
+
+        return "administrativo/contrataciones";
     }
 
     @GetMapping("/contratacionanual/{año}")
-    public String contratacionAnual(@PathVariable Long año, Model model, HttpSession session ){
+    public String contratacionAnual(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@PathVariable Long año, Model model, HttpSession session ){
         String nombre = "Contrataciones"+año;
         model.addAttribute("año", año);
-        List<Contenido> contenidos = contenidoService.findBySeccionNombre(nombre);
+        Page<Contenido> contenidos = contenidoService.findPagedBySeccionNombre(nombre, PageRequest.of(page, size));
         Optional<Seccion> seccionActual = seccionService.findByNombre(nombre);
         long id = seccionActual.get().getId();
 
         model.addAttribute("id", id);
         if (!contenidos.isEmpty()){
-            model.addAttribute("contenidos",contenidos);
+            model.addAttribute("contenidos", contenidos.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", contenidos.getTotalPages());
         }
         String role = (String) session.getAttribute("role");
         if (role == "ROLE_ADMIN"){
@@ -403,5 +437,15 @@ public class VistaController {
         }
 
         return "biblioteca";
+    }
+
+    @GetMapping("/comunidad")
+    public String comunidad(Model model, HttpSession session) {
+        String role = (String) session.getAttribute("role");
+        if (role == "ROLE_ADMIN"){
+            boolean isAdmin = true;
+            model.addAttribute("isAdmin", isAdmin);
+        }
+        return "comunidad";
     }
 }

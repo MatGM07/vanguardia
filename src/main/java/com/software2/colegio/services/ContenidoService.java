@@ -7,6 +7,10 @@ import com.software2.colegio.repositories.EstudianteRepository;
 import com.software2.colegio.repositories.ImagenesRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,5 +113,9 @@ public class ContenidoService {
 
     public List<Contenido> findBySeccionNombre(String nombre) {
         return contenidoRepository.findBySeccionNombre(nombre);
+    }
+
+    public Page<Contenido> findPagedBySeccionNombre(String seccionNombre, Pageable pageable) {
+        return contenidoRepository.findPagedBySeccionNombre(seccionNombre, pageable);
     }
 }

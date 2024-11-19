@@ -15,6 +15,7 @@ public class Contenido {
 
     private String titulo;
 
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
     private LocalDate fecha_creacion;

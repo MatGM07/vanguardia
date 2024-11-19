@@ -46,6 +46,28 @@
     </div>
 </div>
 
+
+<div class="pagination" th:if="${totalPages > 1}">
+    <!-- Botón anterior -->
+    <button th:disabled="${currentPage == 0}"
+            th:onclick="'location.href=\'?page=' + (${currentPage} - 1) + '&size=5\''">
+        &laquo; Anteriores
+    </button>
+
+    <!-- Botones para cada página -->
+    <span th:each="page, iterStat : ${#numbers.sequence(0, totalPages - 1)}">
+        <a th:classappend="${page == currentPage} ? 'active'"
+           th:href="@{'/contrataciones'(page=${page}, size=5)}"
+           th:text="${page + 1}">1</a>
+    </span>
+
+    <!-- Botón siguiente -->
+    <button th:disabled="${currentPage + 1 == totalPages}"
+            th:onclick="'location.href=\'?page=' + (${currentPage} + 1) + '&size=5\''">
+        Siguientes &raquo;
+    </button>
+</div>
+
 <!-- Modal para mostrar la imagen en tamaño completo -->
 <div id="imageModal" class="modal" onclick="closeModal()">
     <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -60,11 +82,11 @@
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo" required>
 
-            <p>Agregar Enlace Externo</p>
-            <label for="texto">Texto:</label>
+            <p>Agregar Enlace Externo O Archivo Local: </p>
+            <br>
+            <label for="texto">Enlace Externo:</label>
             <textarea id="texto" name="texto" rows="4" placeholder="Enlace Externo"></textarea>
 
-            <p>Agregar Archivo Local</p>
             <label for="archivo" class="label">Adjuntar archivos (opcional):</label>
             <input type="file" id="archivo" name="archivo" multiple>
 

@@ -1,7 +1,7 @@
 package com.software2.colegio.models;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 @Entity
@@ -13,12 +13,14 @@ public class DocenteReunion {
 
     @ManyToOne
     @MapsId("docenteId")
+    @JsonIgnore
     @JoinColumn(name = "docente_id")
     private Docente docente;
 
 
     @ManyToOne
     @MapsId("reunionId")
+    @JsonIgnore
     @JoinColumn(name = "reunion_id")
     private Reunion reunion;
 

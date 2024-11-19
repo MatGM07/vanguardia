@@ -35,9 +35,6 @@ h1.titulo-contrataciones {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.container-years p a:link {
-    color: rgb(243, 228, 95);
-}
 
 .btn-eliminar {
     border:none;
@@ -57,4 +54,39 @@ h1.titulo-contrataciones {
     border-radius: 5px;
     font-family: 'Poppins';
     font-weight: 600;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
 }
